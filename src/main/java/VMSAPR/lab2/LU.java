@@ -1,22 +1,12 @@
 package VMSAPR.lab2;
 
-public class LU {
+public class LU extends Gauss {
     private double[] result;
-    private double[][] initializeU(int n, double[][] initialMatrix){
-        double[][] U = new double[n][n + 1];
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j <= n; j++) {
-                if (i == j) {
-                    U[i][j] = 1;
-                } else {
-                    U[i][j] = initialMatrix[i][j] / initialMatrix[i][i];
-                }
-            }
-        }
-        return U;
+    public LU(int n, double[][] matrix) {
+        super(n, matrix);
     }
-    private double[][] initializeL(int n, double[][] initializedU, double[][] initialMatrix) {
-        double[][] L = new double[n][n + 1];
+    protected double[][] initializeL(int n, double[][] initializedU, double[][] initialMatrix) {
+        double[][] L = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j <= i; j++) {
                 if (j == 0) {
@@ -32,12 +22,12 @@ public class LU {
         }
         return L;
     }
-    public void eval(int n, double[][] matrix) {
-        double[][] U = initializeU(n, matrix);
-        double[][] L = initializeL(n, U, matrix);
+    public void eval(double[][] matrix) {
+        forward(super.matrix, n);
+        double[][] L = initializeL(n, super.matrix, matrix);
         double[] Y = new double[n];
         int i = 0;
-        Y[i] = matrix[i][n];
+        Y[i] = matrix[i][n] / L[i][i];
         for (; i < n; i++) {
             double someSum = 0;
             for (int j = 0; j < i; j++) {
@@ -51,7 +41,7 @@ public class LU {
         for (--i; i >= 0; i--) {
             double someSum = 0;
             for (int j = i; j >= 0; j--) {
-                someSum += U[i][j]*result[j];
+                someSum += super.matrix[i][j]*result[j];
             }
             result[i] = Y[i] - someSum;
         }

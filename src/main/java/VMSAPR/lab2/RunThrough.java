@@ -1,12 +1,13 @@
 package VMSAPR.lab2;
 
 public class RunThrough {
-    int n;
-    public double[][] matrix;
+    private final int n;
+    private final double[][] matrix;
     private double[] result;
-    public RunThrough(int n, double[][] x) {
+    public RunThrough(int n, double[][] matrix) {
         this.n = n;
-        matrix = x;
+        this.matrix = new double[n][n + 1];
+        System.arraycopy(matrix, 0, this.matrix, 0, matrix.length);
     }
     private double[][] forward() {
         double[] alpha = new double[n - 1];
