@@ -47,10 +47,10 @@ public class Main {
         System.out.println("Метод Якоби:");
         jacobi.eval();
         System.out.println(jacobi);
-        Zeidel zeidel = new Zeidel(n, matrix);
+        Seidel seidel = new Seidel(n, matrix);
         System.out.println("Метод Зейделя");
-        zeidel.eval();
-        System.out.println(zeidel);
+        seidel.eval();
+        System.out.println(seidel);
          */
     }
 }

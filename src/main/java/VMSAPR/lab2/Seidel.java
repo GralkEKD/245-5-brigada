@@ -1,7 +1,7 @@
 package VMSAPR.lab2;
 
-public class Zeidel extends Jacobi{
-    public Zeidel(int n, double[][] matrix) {
+public class Seidel extends Jacobi{
+    public Seidel(int n, double[][] matrix) {
         super(n, matrix);
     }
     @Override
