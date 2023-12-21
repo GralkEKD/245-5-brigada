@@ -1,5 +1,7 @@
 package VMSAPR.lab4;
 
+import VMSAPR.lab2.RunThrough;
+
 public class Splines {
     /*
     [Verse 1]
@@ -66,10 +68,11 @@ public class Splines {
     I got women pouirn', endless like MacLaurin
     When it comes to scoring and math, I'm the boss
      */
-    private double[][] matrix;
-    private int n;
-    private double[] x;
-    private double[] y;
+    private final double[][] matrix;
+    private final int n;
+    private final double[] x;
+    private final double[] y;
+    private double[] derivatives;
     public Splines (int n, double[] x, double[] y) {
         this.n = n;
         this.x = x;
@@ -78,21 +81,55 @@ public class Splines {
     }
     private void matrixFilling() {
         for (int i = 0; i < n; i++) {
-            double h;
+            double h, hi;
             double[] currentRow = new double[n + 1];
             if (i == 0) {
                 h = x[1] - x[0];
-                currentRow[0] = 4 / h;
-                currentRow[1] = 2 / h;
-                currentRow[n] = 6 * (y[1] - y[0]) / (h * h);
+                currentRow[0] = - 4 / h;
+                currentRow[1] = - 2 / h;
+                currentRow[n] = - 6 * (y[1] - y[0]) / Math.pow(h, 2);
             } else if (i == n - 1) {
                 h = x[n - 1] - x[n - 2];
                 currentRow[n - 2] = 2 / h;
                 currentRow[n - 1] = 4 / h;
-                currentRow[n] = 6 * (y[n - 1] - y[n - 2]) / (h * h);
+                currentRow[n] = 6 * (y[n - 1] - y[n - 2]) / Math.pow(h, 2);
             } else {
-                h = x[i + 1] - x[i];
+                h = x[i] - x[i - 1]; // 0.5
+                hi = x[i + 1] - x[i]; // 6
+                currentRow[i - 1] = 1/h; // 2
+                currentRow[i] = 2 * (1/h + 1/hi); //
+                currentRow[i + 1] = 1/hi;
+                currentRow[n] = 3 * ((y[i] - y[i - 1]) / Math.pow(h, 2) + (y[i + 1] - y[i]) / Math.pow(hi, 2));
+            }
+            System.arraycopy(currentRow, 0, matrix[i], 0, matrix[i].length);
+        }
+        RunThrough runThrough = new RunThrough(n, matrix);
+        runThrough.eval();
+        derivatives = new double[runThrough.result.length];
+        System.arraycopy(runThrough.result, 0, derivatives, 0, derivatives.length);
+    }
+    public double eval(double x) {
+        matrixFilling();
+        double first, second, third, fourth;
+        int im1 = -1, i1 = -1;
+        for (int i = 0; i < n; i++) {
+            if (this.x[i] == x) {
+                return y[i];
+            } else if (this.x[i] > x && i > 0) {
+                i1 = i;
+                im1 = i - 1;
+                break;
             }
         }
+        if (im1 == -1) {
+            return Double.NaN;
+        } else {
+            double h = this.x[i1] - this.x[im1];
+            first = y[im1] * (Math.pow(x - this.x[i1], 2) * (2 * (x - this.x[im1]) + h)) / Math.pow(h, 3);
+            second = derivatives[im1] * (Math.pow(x - this.x[i1], 2) * (x - this.x[im1])) / Math.pow(h, 2);
+            third = y[i1] * (Math.pow(x - this.x[i1], 2) * (2 * (this.x[i1] - x) + h)) / Math.pow(h, 3);
+            fourth = derivatives[i1] * (Math.pow(x - this.x[im1], 2) * (x - this.x[i1])) / Math.pow(h, 2);
+        }
+        return first + second + third + fourth;
     }
 }

@@ -15,11 +15,11 @@ import javax.swing.JFrame;
 import java.awt.*;
 
 public class DrawingComponent extends JFrame{
-    public DrawingComponent(Lagrange lagrange, Aitken aitken) {
-        initUI(lagrange, aitken);
+    public DrawingComponent(Lagrange lagrange, Aitken aitken, Splines splines) {
+        initUI(lagrange, aitken, splines);
     }
-    private void initUI(Lagrange lagrange, Aitken aitken) {
-        XYDataset dataset = createDataset(lagrange, aitken);
+    private void initUI(Lagrange lagrange, Aitken aitken, Splines splines) {
+        XYDataset dataset = createDataset(lagrange, aitken, splines);
         JFreeChart chart = createChart(dataset);
 
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -32,20 +32,24 @@ public class DrawingComponent extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    private XYDataset createDataset(Lagrange lagrange, Aitken aitken){
+    private XYDataset createDataset(Lagrange lagrange, Aitken aitken, Splines splines){
         var seriesL = new XYSeries("Лагранж");
-        var seriesA = new XYSeries("Эйткен (+10 отн. реального)");
+        var seriesA = new XYSeries("Эйткен (+10)");
+        var seriesS = new XYSeries("Сплайны (+20)");
         double x = 0;
         for (int i = -10; x < 21; i++) {
             x = 0 + i * 0.137;
             System.out.println("x = " + x + " " + "y = " + lagrange.eval(x) + "(Лагранж)");
-            System.out.println("x = " + x + " " + "y = " + aitken.eval(x) + "(Эйткен)\n");
+            System.out.println("x = " + x + " " + "y = " + aitken.eval(x) + "(Эйткен)");
+            System.out.println("x = " + x + " " + "y = " + splines.eval(x) + "(Сплайны)");
             seriesL.add(x, lagrange.eval(x));
             seriesA.add(x, aitken.eval(x) + 10);
+            seriesS.add(x, splines.eval(x) + 20);
         }
         var dataset = new XYSeriesCollection();
         dataset.addSeries(seriesL);
         dataset.addSeries(seriesA);
+        dataset.addSeries(seriesS);
         return dataset;
     }
     private JFreeChart createChart(XYDataset dataset) {

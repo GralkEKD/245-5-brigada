@@ -3,7 +3,7 @@ package VMSAPR.lab2;
 public class RunThrough {
     private final int n;
     private final double[][] matrix;
-    private double[] result;
+    public double[] result;
     public RunThrough(int n, double[][] matrix) {
         this.n = n;
         this.matrix = new double[n][n + 1];
