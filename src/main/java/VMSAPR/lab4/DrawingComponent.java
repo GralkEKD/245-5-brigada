@@ -35,7 +35,7 @@ public class DrawingComponent extends JFrame{
     private XYDataset createDataset(Lagrange lagrange, Aitken aitken, Splines splines){
         var seriesL = new XYSeries("Лагранж");
         var seriesA = new XYSeries("Эйткен (+2)");
-        var seriesS = new XYSeries("Сплайны (+4)");
+        var seriesS = new XYSeries("Сплайны");
         double x = Main.x[0];
         while (x <= Main.x[Main.n - 1]) {
             System.out.println("x = " + x + " " + "y = " + lagrange.eval(x) + "(Лагранж)");
@@ -43,7 +43,7 @@ public class DrawingComponent extends JFrame{
             System.out.println("x = " + x + " " + "y = " + splines.eval(x) + "(Сплайны)\n");
             seriesL.add(x, lagrange.eval(x));
             seriesA.add(x, aitken.eval(x) + 2);
-            seriesS.add(x, splines.eval(x) + 4);
+            seriesS.add(x, splines.eval(x));
             x += 0.0625;
         }
         var dataset = new XYSeriesCollection();
