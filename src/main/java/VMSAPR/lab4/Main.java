@@ -4,6 +4,9 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
+    public static int n = 7;
+    public static double[] x = {0.5, 1, 1.6, 2.3, 3.1, 4.0, 5.0};
+    public static double[] y = {-2.3, 0.5, 11.5, 17.5, 17.9, 23, 27.7};
     public static void main(String[] args) {
         /*
         Scanner input = new Scanner(System.in);
@@ -23,9 +26,6 @@ public class Main {
         */
         Scanner input = new Scanner(System.in);
         input.useLocale(Locale.US); // формат ввода числа с ПТ с точкой в качестве десятичного разделителя
-        int n = 7;
-        double[] x = {0.5, 1, 7, 11, 12, 15, 20};
-        double[] y = {-2.3, 0.5, 11.5, 17.5, 17.9, 23, 27.7};
         Lagrange lagrange = new Lagrange(n, x, y);
         Aitken aitken = new Aitken(n, x, y);
         Splines splines = new Splines(n, x, y);

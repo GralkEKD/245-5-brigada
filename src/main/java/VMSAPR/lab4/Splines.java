@@ -78,6 +78,7 @@ public class Splines {
         this.x = x;
         this.y = y;
         matrix = new double[n][n + 1];
+        matrixFilling();
     }
     private void matrixFilling() {
         for (int i = 0; i < n; i++) {
@@ -109,7 +110,6 @@ public class Splines {
         System.arraycopy(runThrough.result, 0, derivatives, 0, derivatives.length);
     }
     public double eval(double x) {
-        matrixFilling();
         double first, second, third, fourth;
         int im1 = -1, i1 = -1;
         for (int i = 0; i < n; i++) {
@@ -127,7 +127,7 @@ public class Splines {
             double h = this.x[i1] - this.x[im1];
             first = y[im1] * (Math.pow(x - this.x[i1], 2) * (2 * (x - this.x[im1]) + h)) / Math.pow(h, 3);
             second = derivatives[im1] * (Math.pow(x - this.x[i1], 2) * (x - this.x[im1])) / Math.pow(h, 2);
-            third = y[i1] * (Math.pow(x - this.x[i1], 2) * (2 * (this.x[i1] - x) + h)) / Math.pow(h, 3);
+            third = y[i1] * (Math.pow(x - this.x[im1], 2) * (2 * (this.x[i1] - x) + h)) / Math.pow(h, 3);
             fourth = derivatives[i1] * (Math.pow(x - this.x[im1], 2) * (x - this.x[i1])) / Math.pow(h, 2);
         }
         return first + second + third + fourth;
