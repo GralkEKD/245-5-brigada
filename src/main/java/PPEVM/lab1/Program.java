@@ -2,20 +2,23 @@ package PPEVM.lab1;
 
 import java.util.Scanner;
 public class Program {
-    public static void main(String[] args) {
+    static void task1(String[] args) {
         // Отобразить в окне консоли аргументы командной строки в обратном порядке.
         int i = args.length - 1;
-        while(i >= 0) {
+        while (i >= 0) {
             System.out.println(args[i--]);
         }
-        /* Ввести с консоли n целых чисел. На консоль вывести  Все трехзначные числа, в десятичной записи которых нет
+    }
+    static void task2() {
+        /*
+        Ввести с консоли n целых чисел. На консоль вывести все трехзначные числа, в десятичной записи которых нет
         одинаковых цифр.
          */
         Scanner input = new Scanner(System.in);
         System.out.print("Введите количество чисел: ");
         int n = input.nextInt();
         int[] numbers = new int[n];
-        for (i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.printf("%d-е число: ", i + 1);
             numbers[i] = input.nextInt();
         }
@@ -26,5 +29,9 @@ public class Program {
                 }
             }
         }
+    }
+    public static void main(String[] args) {
+        task1(args);
+        task2();
     }
 }
