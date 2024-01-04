@@ -4,9 +4,9 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
-    public static int n = 7;
-    public static double[] x = {0.5, 1, 1.6, 2.3, 3.1, 4.0, 5.0};
-    public static double[] y = {-2.3, 0.5, 11.5, 17.5, 17.9, 23, 27.7};
+    public static int n = 11;
+    public static double[] x = {-1, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1};
+    public static double[] y = {0.0385, 0.0588, 0.1, 0.2, 0.5, 1, 0.5, 0.2, 0.1, 0.0588, 0.0385};
     public static void main(String[] args) {
         /*
         Scanner input = new Scanner(System.in);
@@ -30,12 +30,23 @@ public class Main {
         Aitken aitken = new Aitken(n, x, y);
         Splines splines = new Splines(n, x, y);
         String check = "";
+        long t;
+        double evaluatedX;
         while (!check.equalsIgnoreCase("n")) {
             System.out.print("Аргумент: ");
             double in = input.nextDouble();
-            System.out.println("Метод Лагранжа: " + lagrange.eval(in));
-            System.out.println("Метод Эйткена: " + aitken.eval(in));
-            System.out.println("Метод сплайнов: " + splines.eval(in));
+            System.out.print("Метод Лагранжа: ");
+            t = System.currentTimeMillis();
+            evaluatedX = lagrange.eval(in);
+            System.out.println(evaluatedX + " Время выполнения: " + (System.currentTimeMillis() - t) + "мс");
+            System.out.print("Метод Эйткена: ");
+            t = System.currentTimeMillis();
+            evaluatedX = aitken.eval(in);
+            System.out.println(evaluatedX + " Время выполнения: " + (System.currentTimeMillis() - t) + "мс");
+            System.out.print("Метод Сплайнов: ");
+            t = System.currentTimeMillis();
+            evaluatedX = splines.eval(in);
+            System.out.println(evaluatedX + " Время выполнения: " + (System.currentTimeMillis() - t) + "мс");
             System.out.print("Продолжить? Y/N ");
             check = input.next();
         }

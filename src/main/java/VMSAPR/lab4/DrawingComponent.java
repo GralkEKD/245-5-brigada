@@ -36,27 +36,43 @@ public class DrawingComponent extends JFrame{
         var seriesL = new XYSeries("Лагранж");
         var seriesA = new XYSeries("Эйткен (+2)");
         var seriesS = new XYSeries("Сплайны");
+        var seriesKnots = new XYSeries("Узлы интерполяции");
         double x = Main.x[0];
+        long t = System.currentTimeMillis();
         while (x <= Main.x[Main.n - 1]) {
-            System.out.println("x = " + x + " " + "y = " + lagrange.eval(x) + "(Лагранж)");
-            System.out.println("x = " + x + " " + "y = " + aitken.eval(x) + "(Эйткен)");
-            System.out.println("x = " + x + " " + "y = " + splines.eval(x) + "(Сплайны)\n");
             seriesL.add(x, lagrange.eval(x));
-            seriesA.add(x, aitken.eval(x) + 2);
+            x += ((double) 1 /32);
+        }
+        System.out.println("Время выполнения (метод Лагранжа): " + (System.currentTimeMillis() - t + " мс"));
+        t = System.currentTimeMillis();
+        x = Main.x[0];
+        while (x <= Main.x[Main.n - 1]) {
+            seriesA.add(x, aitken.eval(x));
+            x += ((double) 1 /32);
+        }
+        System.out.println("Время выполнения (метод Эйткена): " + (System.currentTimeMillis() - t + " мс"));
+        t = System.currentTimeMillis();
+        x = Main.x[0];
+        while (x <= Main.x[Main.n - 1]) {
             seriesS.add(x, splines.eval(x));
-            x += 0.0625;
+            x += ((double) 1 /32);
+        }
+        System.out.println("Время выполнения (метод Сплайнов): " + (System.currentTimeMillis() - t + " мс"));
+        for (int i = 0; i < Main.n; i++) {
+            seriesKnots.add(Main.x[i], Main.y[i]);
         }
         var dataset = new XYSeriesCollection();
         dataset.addSeries(seriesL);
         dataset.addSeries(seriesA);
         dataset.addSeries(seriesS);
+        dataset.addSeries(seriesKnots);
         return dataset;
     }
     private JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Графики",
                 "x",
-                "y",
+                "y = f(x) = 1/(1 + 25*x^2) (Функция Рунге)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
