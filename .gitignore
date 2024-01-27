@@ -1,5 +1,6 @@
 target/
 study/
+!study/Sorting.java
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

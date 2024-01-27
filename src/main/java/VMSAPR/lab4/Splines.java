@@ -11,7 +11,7 @@ public class Splines {
     I filled her up in her Latus Rectum
 
     I spin her full, you can call me a basis
-    Try fitting me in a 3x3 matrix
+    Try fitting me in a 3x3 array
     I'm past 3D and got edges or faces
     That girl be lettin' me run all the bases
 

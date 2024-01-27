@@ -7,14 +7,14 @@ public class Main {
         System.out.print("Введите ранг матрицы: ");
         Scanner input = new Scanner(System.in);
         int n = input.nextInt();
-        double[][] matrix = new double[n][n+1];
+        double[][] array = new double[n][n+1];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 System.out.print("a" + (i + 1) + (j + 1) + ": ");
-                matrix[i][j] = input.nextDouble();
+                array[i][j] = input.nextDouble();
             }
             System.out.print("a" + (i + 1) + (n + 1) + ": ");
-            matrix[i][n] = input.nextDouble();
+            array[i][n] = input.nextDouble();
         }
         input.close();
          */
@@ -30,24 +30,24 @@ public class Main {
         System.out.println(gauss);
         Determinant determinant = new Determinant(n, matrix);
         System.out.println("Определитель матрицы: " + determinant.determinant(matrix) + "\n");
-        /*
         System.out.println("Метод прогонки:");
         RunThrough runThrough = new RunThrough(n, matrix);
         runThrough.eval();
         System.out.println(runThrough);
+        /*
         System.out.println("LU-разложение:");
-        LU lu = new LU(n, matrix);
-        lu.eval(matrix);
+        LU lu = new LU(n, array);
+        lu.eval(array);
         System.out.println(lu);
-        ReciprocalMatrix reciprocalMatrix = new ReciprocalMatrix(n, matrix);
+        ReciprocalMatrix reciprocalMatrix = new ReciprocalMatrix(n, array);
         reciprocalMatrix.eval();
         System.out.println("Обратная матрица:");
         System.out.println(reciprocalMatrix);
-        Jacobi jacobi = new Jacobi(n, matrix);
+        Jacobi jacobi = new Jacobi(n, array);
         System.out.println("Метод Якоби:");
         jacobi.eval();
         System.out.println(jacobi);
-        Seidel seidel = new Seidel(n, matrix);
+        Seidel seidel = new Seidel(n, array);
         System.out.println("Метод Зейделя");
         seidel.eval();
         System.out.println(seidel);
