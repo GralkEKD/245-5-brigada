@@ -3,32 +3,25 @@ package study;
 /**
  * So, I decided to write some classes with interesting algorithms I come across, and as a first step this class was
  * created. It simply contains every sorting algorithm I could've found. At this point, there are selection sort,
- * insertion sort, bubble sort and merge sort. More algorithms are to be presented as I perfect my coding and
- * algorithms understanding skills, hopefully.
+ * bubble sort and merge sort. More algorithms are to be presented as I perfect my coding and algorithms understanding
+ * skills, hopefully.
  */
 public class Sorting {
+
     /**
-     * Each caster method casts one of provided primitive arrays into an array of double
-     * @param array an initial array of a given primitive
-     * @return the array of double
+     * Swaps two array elements' places. Just a simple element of a program logic which is sometimes repeatedly called.
+     * @param array array where the elements need to be swapped
+     * @param index1 an index of the first element
+     * @param index2 an index of the second element
      */
-
-    private static double[] caster(int[] array) {
-        double[] newArray = new double[array.length];
-        for (int i = 0; i < array.length; i++) {newArray[i] = array[i];}
-        return newArray;
+    private static void swap(double[] array, int index1, int index2) {
+        double aux = array[index1];
+        array[index1] = array[index2];
+        array[index2] = aux;
     }
 
-    private static double[] caster(long[] array) {
-        double[] newArray = new double[array.length];
-        for (int i = 0; i < array.length; i++) {newArray[i] = array[i];}
-        return newArray;
-    }
+    private static void arrayToMaxHeap(double[] array) {
 
-    private static double[] caster(float[] array) {
-        double[] newArray = new double[array.length];
-        for (int i = 0; i < array.length; i++) {newArray[i] = array[i];}
-        return newArray;
     }
 
     /**
@@ -40,40 +33,49 @@ public class Sorting {
      * @param array an array to be sorted
      */
 
-    public static void selectionSort(int[] array) {
-        selectionSort(caster(array));
-    }
-
-    public static void selectionSort(long[] array) {
-        selectionSort(caster(array));
-    }
-
-    public static void selectionSort(float[] array) {
-        selectionSort(caster(array));
-    }
-
     public static void selectionSort(double[] array) {
-        double aux;
         for (int i = 0; i < array.length - 1; i++) {
             double min = array[i];
             int minIndex = i;
-            aux = array[i];
             for (int j = i + 1; j < array.length; j++) {
                 if (array[j] < min) {
                     min = array[j];
                     minIndex = j;
                 }
             }
-            array[i] = min;
-            array[minIndex] = aux;
+            swap(array, i, minIndex);
         }
     }
 
     /**
-     * Insertion sort
-     * @param array
+     * DEPRECATED: In cases when minimal and/or maximal element's indexes coincide with the outer cycle's iterator
+     * an element loss may occur. Totally fixable, but until then one should refrain from using this method.
+     * Double selection sort is a modified selection sort algorithm. The main difference is that in the same time
+     * the greatest and the smallest elements are being sorted in. Given that, the outer cycle's number of iterations
+     * can be effectively reduced by half.
+     * @param array an array to be sorted
      */
-    public static void insertionSort(double[] array) {
+
+    @Deprecated
+    public static void doubleSelectionSort(double[] array) {
+        int lim = Math.ceilDivExact(array.length, 2) - 1;
+        for (int i = 0; i <= lim; i++) {
+            int endingPosition = array.length - 1 - i, minIndex = i, maxIndex = endingPosition;
+            double min = array[i], max = array[endingPosition];
+            for (int j = i; j <= endingPosition; j++) {
+                if (array[j] > max) {
+                    max = array[j];
+                    maxIndex = j;
+                } else if (array[j] < min) {
+                    min = array[j];
+                    minIndex = j;
+                }
+            }
+            array[minIndex] = array[i];
+            array[i] = min;
+            array[maxIndex] = array[endingPosition];
+            array[endingPosition] = max;
+        }
     }
 
     /**
@@ -85,18 +87,6 @@ public class Sorting {
      * @param array an array to be sorted
      */
 
-    public static void bubbleSort(int[] array) {
-        bubbleSort(caster(array));
-    }
-
-    public static void bubbleSort(long[] array) {
-        bubbleSort(caster(array));
-    }
-
-    public static void bubbleSort(float[] array) {
-        bubbleSort(caster(array));
-    }
-
     public static void bubbleSort(double[] array) {
         int length = array.length;
         int sortCount = 0;
@@ -106,25 +96,11 @@ public class Sorting {
                 double aux;
                 if (array[i] > array[i + 1]) {
                     sortCount++;
-                    aux = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = aux;
+                    swap(array, i, i + 1);
                 }
             }
             if (length != 1) length--;
         }
-    }
-
-    public static void mergeSort(int[] array) {
-        mergeSort(caster(array));
-    }
-
-    public static void mergeSort(float[] array) {
-        mergeSort(caster(array));
-    }
-
-    public static void mergeSort(long[] array) {
-        mergeSort(caster(array));
     }
 
     public static void mergeSort(double[] array) {
@@ -134,9 +110,7 @@ public class Sorting {
     public static void mergeSort(double[] array, int start, int end) {
         if (end - start == 1) {
             if (array[start] > array[end]) {
-                double aux = array[start];
-                array[start] = array[end];
-                array[end] = aux;
+                swap(array, start, end);
             }
         } else if (start != end) {
             int endOfFirst = Math.floorDivExact(start + end, 2);
@@ -159,4 +133,30 @@ public class Sorting {
         }
     }
 
+    public static void quickSort(double[] array) {
+        quickSort(array, 0, array.length - 1);
+    }
+
+    public static void quickSort(double[] array, int start, int end) {
+        if (end - start == 1) {
+            if (array[start] > array[end]) {
+                swap(array, start, end);
+            }
+        } else if (start != end) {
+            double pivot = array[start];
+            int pointerA = start + 1, pointerB = end;
+            while (pointerA != pointerB) {
+                while (array[pointerA] <= pivot && pointerA < pointerB) {
+                    pointerA++;
+                }
+                while (array[pointerB] > pivot && pointerA < pointerB) {
+                    pointerB--;
+                }
+                swap(array, pointerA, pointerB);
+            }
+            swap(array, start, pointerA - 1);
+            quickSort(array, start, pointerA - 1);
+            quickSort(array, pointerA, end);
+        }
+    }
 }
