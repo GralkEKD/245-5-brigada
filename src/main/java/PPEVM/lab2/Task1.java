@@ -51,15 +51,6 @@ public class Task1 {
         return counter;
     }
 
-    public static void task1() {
-        insertValues();
-        int onlyEvensCounter = countNumbersWithOnlyEvens();
-        int equalEvensAndOddsCounter = countNumbersWithEqualEvensAndOdds();
-        System.out.println("Количество чисел, содержащих только четные цифры: " + onlyEvensCounter);
-        System.out.println("Количество чисел, содержащих равное количество четных и нечетных цифр: " +
-                equalEvensAndOddsCounter);
-    }
-
     private static void insertValues() {
         Scanner input = new Scanner(System.in);
         System.out.print("Введите количество N вводимых чисел: ");
@@ -69,5 +60,14 @@ public class Task1 {
             System.out.printf("Введите %d-е число: ", i);
             insertedNumbers[i - 1] = input.nextInt();
         }
+    }
+
+    public static void task1() {
+        insertValues();
+        int onlyEvensCounter = countNumbersWithOnlyEvens();
+        int equalEvensAndOddsCounter = countNumbersWithEqualEvensAndOdds();
+        System.out.println("Количество чисел, содержащих только четные цифры: " + onlyEvensCounter);
+        System.out.println("Количество чисел, содержащих равное количество четных и нечетных цифр: " +
+                equalEvensAndOddsCounter);
     }
 }
