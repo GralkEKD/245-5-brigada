@@ -10,6 +10,17 @@ public class Book {
     private int price;
     private String binding;
 
+    public Book() {
+        id = 0;
+        name = "Undefined";
+        authors = "Undefined";
+        publishing = "undefined";
+        yearOfPublishing = 0;
+        pages = 0;
+        price = 0;
+        binding = "Undefined";
+    }
+
     public Book(int id, String name, String authors, String publishing, int yearOfPublishing, int pages, int price, String binding) {
         this.id = id;
         this.name = name;

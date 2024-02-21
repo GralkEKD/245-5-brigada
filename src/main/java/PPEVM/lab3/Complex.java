@@ -20,6 +20,16 @@ public class Complex {
         return imaginary;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Complex complex = (Complex) obj;
+        return real == complex.real && imaginary == complex.imaginary;
+    }
+
+    public Complex copy() { return new Complex(this.real, this.imaginary); }
+
     public static Complex sum(Collection<Complex> numbers) {
         Iterator<Complex> iterator = numbers.iterator();
         if (!iterator.hasNext()) return new Complex(0, 0);
@@ -32,18 +42,23 @@ public class Complex {
         return result;
     }
 
-    public static Complex prod(Collection<Complex> numbers) {
+    public static Complex product(Collection<Complex> numbers) {
         Iterator<Complex> iterator = numbers.iterator();
         Complex result;
         if (!iterator.hasNext()) {
             return new Complex(0, 0);
         } else {
-            result = iterator.next();
+            result = iterator.next().copy();
         }
         iterator.forEachRemaining((item) -> {
             result.real = result.real * item.getReal() - result.imaginary * item.getImaginary();
             result.imaginary = result.real * item.getImaginary() + result.imaginary * item.getReal();
         });
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return real + (imaginary >= 0 ? " + " : " - ") + Math.abs(imaginary) + "j";
     }
 }
