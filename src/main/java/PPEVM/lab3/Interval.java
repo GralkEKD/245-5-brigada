@@ -26,14 +26,6 @@ public class Interval {
         }
     }
 
-    public void setIsLeftInclusive(boolean isLeftInclusive) {
-        this.isLeftInclusive = isLeftInclusive;
-    }
-
-    public void setIsRightInclusive(boolean isRightInclusive) {
-        this.isRightInclusive = isRightInclusive;
-    }
-
     public boolean isLeftInclusive() {
         return isLeftInclusive;
     }
