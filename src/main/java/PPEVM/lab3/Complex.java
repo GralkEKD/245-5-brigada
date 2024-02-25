@@ -46,13 +46,15 @@ public class Complex {
         Iterator<Complex> iterator = numbers.iterator();
         Complex result;
         if (!iterator.hasNext()) {
-            return new Complex(0, 0);
+            result = new Complex(0, 0);
         } else {
             result = iterator.next().copy();
         }
         iterator.forEachRemaining((item) -> {
-            result.real = result.real * item.getReal() - result.imaginary * item.getImaginary();
-            result.imaginary = result.real * item.getImaginary() + result.imaginary * item.getReal();
+            double tempReal = result.real * item.getReal() - result.imaginary * item.getImaginary();
+            double tempImaginary = result.real * item.getImaginary() + result.imaginary * item.getReal();
+            result.real = tempReal;
+            result.imaginary = tempImaginary;
         });
         return result;
     }
@@ -62,6 +64,3 @@ public class Complex {
         return real + (imaginary >= 0 ? " + " : " - ") + Math.abs(imaginary) + "j";
     }
 }
-/*
-
- */
