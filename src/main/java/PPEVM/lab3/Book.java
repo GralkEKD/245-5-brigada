@@ -99,13 +99,13 @@ public class Book {
     @Override
     public String toString() {
         return "ID: " + id +
-                ", Название: '" + name + '\'' +
-                ", Автор(ы): '" + authors + '\'' +
-                ", Издательство: '" + publishing + '\'' +
-                ", Год издания: " + yearOfPublishing +
-                ", Количество страниц: " + pages +
-                ", Переплет: '" + binding + '\'' +
-                ", Цена: " + price;
+                ",\nНазвание: '" + name + '\'' +
+                ",\nАвтор(ы): '" + authors + '\'' +
+                ",\nИздательство: '" + publishing + '\'' +
+                ",\nГод издания: " + yearOfPublishing +
+                ",\nКоличество страниц: " + pages +
+                ",\nПереплет: '" + binding + '\'' +
+                ",\nЦена: " + price + "\n";
     }
 
     public boolean checkAuthor(String author) {

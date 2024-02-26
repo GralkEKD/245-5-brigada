@@ -24,7 +24,7 @@ public class Interval {
      * передаче {@code Double.NaN} в любой из конструкторов бросается {@link IllegalBoundaryValueException}.
      */
 
-    public static final Interval EMPTY_SET = new Interval();
+    private static final Interval EMPTY_SET = new Interval();
 
     /**
      * Конструктор по умолчанию. Вызывается только для инициализации пустого множества, поэтому объявлен, как
@@ -38,7 +38,7 @@ public class Interval {
     /**
      * Конструктор, принимающий как параметры только левую и правую границы интервала. При его вызове границы
      * выставляются, как не входящие, если границы не равны, и как входящие в ином случае (тогда интервал будет
-     * считаться точкой). Бросает {@code IllegalBoundaryValueException}
+     * считаться точкой). Бросает {@link IllegalBoundaryValueException}
      * @param leftBoundary левая граница интервала
      * @param rightBoundary правая граница интервала
      * @throws IllegalBoundaryValueException бросается в случае, если в качестве параметра границы интервала было
@@ -66,7 +66,10 @@ public class Interval {
 
     /**
      * Конструктор, принимающий левую и правую границы интервала и булевские значения, определяющие вхождение границ
-     * в интервал ({@code true} - граница входящая, {@code false} - граница невходящая.
+     * в интервал ({@code true} - граница входящая, {@code false} - граница невходящая. Если границы равны, то они
+     * обе устанавливаются, как входящие, вне зависимости от переданных в конструктор параметров. Если граница равна
+     * {@code Double.POSITIVE_INFINITY} или {@code Double.NEGATIVE_INFINITY}, то она всегда устанавливается, как
+     * невходящая, вне зависимости от переданных в конструктор параметров.
      * @param leftBoundary значение левой границы
      * @param isLeftInclusive вхождение левой гранциы
      * @param rightBoundary значение правой границы
@@ -94,6 +97,10 @@ public class Interval {
         this.rightBoundary = rightBoundary;
         if (rightBoundary != Double.POSITIVE_INFINITY) {
             this.isRightInclusive = isRightInclusive;
+        }
+        if (leftBoundary == rightBoundary) {
+            this.isLeftInclusive = true;
+            this.isRightInclusive = true;
         }
     }
 
@@ -288,7 +295,7 @@ public class Interval {
      */
     @Override
     public String toString() {
-        if (this.equals(EMPTY_SET)) { return "EMPTY SET"; }
+        if (this.equals(EMPTY_SET)) return "EMPTY SET";
         String interval = isLeftInclusive ? "[" : "(";
         interval += leftBoundary + "; " + rightBoundary;
         interval += isRightInclusive ? "]" : ")";
