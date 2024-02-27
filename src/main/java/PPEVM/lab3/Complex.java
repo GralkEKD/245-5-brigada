@@ -31,14 +31,11 @@ public class Complex {
     public Complex copy() { return new Complex(this.real, this.imaginary); }
 
     public static Complex sum(Collection<Complex> numbers) {
-        Iterator<Complex> iterator = numbers.iterator();
-        if (!iterator.hasNext()) return new Complex(0, 0);
-
-        Complex result = new Complex(0, 0);
-        iterator.forEachRemaining((item) -> {
-            result.real += item.getReal();
-            result.imaginary += item.getImaginary();
-        });
+        Complex result = new Complex(0,0);
+        for (Complex num : numbers) {
+            result.real += num.real;
+            result.imaginary += num.imaginary;
+        }
         return result;
     }
 

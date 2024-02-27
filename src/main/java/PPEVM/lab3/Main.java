@@ -1,49 +1,31 @@
 package PPEVM.lab3;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-        Book[] books = ArraysOfObjects.booksArray();
-        System.out.println("Книги за авторством Лермонтова:");
-        StringBuilder sb = new StringBuilder();
-        for (Book book : books) {
-            if (book.checkAuthor("Лермонтов")) sb.append(book);
-        }
-        System.out.println(sb);
-        System.out.println("Книги, выпущенные издательством \"Ленинград\":");
-        sb = new StringBuilder();
-        for (Book book : books) {
-            if (book.checkPublishing("Ленинград")) sb.append(book);
-        }
-        System.out.println(sb);
-        System.out.println("Книги, изданые после 1980 года:");
-        sb = new StringBuilder();
-        for (Book book : books) {
-            if (book.checkYear(1980)) sb.append(book);
-        }
-        System.out.println(sb);
+        Tasks.task1();
+        Tasks.task2();
+        Tasks.task3();
+        checkIntervalsForEquality();
+    }
 
-        Interval[] intervals = ArraysOfObjects.intervalsArray();
-        System.out.println("Объединение интервалов 1 и 2: " +
-                intervals[0].union(intervals[1]) + "\n" +
-                "Пересечение интервалов 2 и 3: " +
-                intervals[1].intersect(intervals[2]) + "\n" +
-                "Объединение интервалов 2 и 4: " +
-                intervals[1].union(intervals[3]) + "\n" +
-                "Пересечение интервалов 1 и 4: " +
-                intervals[0].intersect(intervals[3]));
-        System.out.printf("Расстояние между двумя самыми отдаленными точками = %.1f\n",
-                ArraysOfObjects.lengthBetweenTwoFurthestPoints(intervals));
+    private static void checkIntervalsForEquality() {
+        Interval int1_1 = new Interval(-1.57, true, 17.4, false);
+        Interval int1_2 = new Interval(-1.57, true, 17.4, false);
 
-        Complex[] complexes = ArraysOfObjects.complexArray();
-        ArrayList<Complex> numbersList = new ArrayList<>(List.of(complexes));
-        System.out.println("Пары комплексных координат: ");
-        for (Complex num : complexes) {
-            System.out.println(num);
-        }
-        System.out.println("Сумма: " + Complex.sum(numbersList));
-        System.out.println("Произведение: " + Complex.product(numbersList));
+        Interval int2_1 = new Interval(-3.4, false, 0.17, true);
+        Interval int2_2 = new Interval(-3.4, false, 0.17, true);
+
+        Interval int3_1 = new Interval(Double.NEGATIVE_INFINITY, 1.9);
+        Interval int3_2 = new Interval(Double.NEGATIVE_INFINITY, 1.9);
+
+        Interval int4_1 = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Interval int4_2 = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+        System.out.println(int1_1.equals(int1_2) + "\n" +
+                int2_1.equals(int2_2) + "\n" +
+                int3_1.equals(int3_2) + "\n" +
+                int4_1.equals(int4_2) + "\n" +
+                int1_1.equals(int2_1) + "\n" +
+                int3_1.equals(int4_1));
     }
 }

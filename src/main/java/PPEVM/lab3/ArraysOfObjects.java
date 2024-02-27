@@ -19,20 +19,6 @@ public class ArraysOfObjects {
         };
     }
 
-    public static double lengthBetweenTwoFurthestPoints(Interval[] intervals) {
-        double min = Double.POSITIVE_INFINITY;
-        double max = Double.NEGATIVE_INFINITY;
-        for (Interval interval : intervals) {
-            if (interval.getLeftBoundary() < min && interval.getLeftBoundary() != Double.NEGATIVE_INFINITY) {
-                min = interval.getLeftBoundary();
-            }
-            if (interval.getRightBoundary() > max && interval.getRightBoundary() != Double.POSITIVE_INFINITY) {
-                max = interval.getRightBoundary();
-            }
-        }
-        return max - min;
-    }
-
     public static Complex[] complexArray() {
         return new Complex[] {
                 new Complex(-1.4, 5.2),
