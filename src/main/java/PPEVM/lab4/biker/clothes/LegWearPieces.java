@@ -5,5 +5,5 @@ public enum LegWearPieces {
     PANTS,
     SHORTS,
     SKIRT,
-    STOCKINGS
+    STOCKINGS // :|
 }

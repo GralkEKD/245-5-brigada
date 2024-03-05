@@ -10,6 +10,14 @@ public abstract class Protection {
     protected double price;
     protected double weight;
 
+    protected Protection() {}
+    protected Protection(Material material, Size size, double price, double weight) {
+        this.material = material;
+        this.size = size;
+        this.price = price;
+        this.weight = weight;
+    }
+
     public Material getMaterial() {
         return material;
     }
