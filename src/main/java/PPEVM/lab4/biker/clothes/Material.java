@@ -4,5 +4,7 @@ public enum Material {
     LINEN,
     WOOL,
     DENIM,
-    LEATHER
+    LEATHER,
+    RUBBER,
+    LATEX
 }

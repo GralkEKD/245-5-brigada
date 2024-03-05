@@ -4,20 +4,21 @@ import PPEVM.lab4.biker.Size;
 
 import java.util.Objects;
 
-public class BodyClothing extends Clothes{
-    private BodyClothingPieces type;
-    public BodyClothing(Material material, Size size, double price, BodyClothingPieces type) {
+public class FootWear extends Clothes implements java.io.Serializable{
+    private FootWearPieces type;
+    public FootWear() {}
+    public FootWear(Material material, Size size, double price, FootWearPieces type) {
         super.material = material;
         super.size = size;
         super.price = price;
         this.type = type;
     }
 
-    public BodyClothingPieces getType() {
+    public FootWearPieces getType() {
         return type;
     }
 
-    public void setType(BodyClothingPieces type) {
+    public void setType(FootWearPieces type) {
         this.type = type;
     }
 
@@ -26,8 +27,8 @@ public class BodyClothing extends Clothes{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        BodyClothing that = (BodyClothing) o;
-        return type == that.type;
+        FootWear footWear = (FootWear) o;
+        return type == footWear.type;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class BodyClothing extends Clothes{
 
     @Override
     public String toString() {
-        return "BodyClothing{" +
+        return "FootWear{" +
                 "type=" + type +
                 ", material=" + material +
                 ", size=" + size +

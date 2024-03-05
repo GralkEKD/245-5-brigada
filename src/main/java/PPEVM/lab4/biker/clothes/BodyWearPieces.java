@@ -1,6 +1,6 @@
 package PPEVM.lab4.biker.clothes;
 
-public enum BodyClothingPieces {
+public enum BodyWearPieces {
     JACKET,
     VEST,
     SHIRT,

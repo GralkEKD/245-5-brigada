@@ -4,25 +4,24 @@ import PPEVM.lab4.biker.Size;
 
 import java.util.Objects;
 
-public class Hat extends Clothes implements java.io.Serializable{
+public class BodyWear extends Clothes implements java.io.Serializable{
+    private BodyWearPieces type;
 
-    private Hats type;
-
-    public Hat() {
+    public BodyWear() {
     }
 
-    public Hat(Material material, Size size, double price, Hats type) {
-        super.price = price;
-        super.size = size;
+    public BodyWear(Material material, Size size, double price, BodyWearPieces type) {
         super.material = material;
+        super.size = size;
+        super.price = price;
         this.type = type;
     }
 
-    public Hats getType() {
+    public BodyWearPieces getType() {
         return type;
     }
 
-    public void setType(Hats type) {
+    public void setType(BodyWearPieces type) {
         this.type = type;
     }
 
@@ -31,8 +30,8 @@ public class Hat extends Clothes implements java.io.Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Hat hat = (Hat) o;
-        return type == hat.type;
+        BodyWear that = (BodyWear) o;
+        return type == that.type;
     }
 
     @Override
@@ -42,8 +41,9 @@ public class Hat extends Clothes implements java.io.Serializable{
 
     @Override
     public String toString() {
-        return "Hat{" +
-                "material=" + material +
+        return "BodyClothing{" +
+                "type=" + type +
+                ", material=" + material +
                 ", size=" + size +
                 ", price=" + price +
                 '}';
