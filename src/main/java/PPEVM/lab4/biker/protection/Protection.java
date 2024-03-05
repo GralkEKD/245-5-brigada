@@ -1,7 +1,5 @@
 package PPEVM.lab4.biker.protection;
 
-import PPEVM.lab4.biker.Size;
-
 import java.util.Objects;
 
 public abstract class Protection {
