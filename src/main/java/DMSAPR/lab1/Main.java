@@ -1,5 +1,6 @@
 package DMSAPR.lab1;
 
+import java.util.Arrays;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -32,6 +33,11 @@ public class Main {
                 stringBuilder.append(elem).append("\t");
             }
             stringBuilder.append("\n");
+        }
+        int[][] matches = Converter.directMatch(incident);
+        for (int[] row :
+                matches) {
+            System.out.println(Arrays.toString(row));
         }
         System.out.println(stringBuilder + "\n");
         System.out.println("Матрица смежности:");
