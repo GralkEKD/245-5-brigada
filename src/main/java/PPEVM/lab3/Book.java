@@ -1,5 +1,7 @@
 package PPEVM.lab3;
 
+import java.util.Objects;
+
 public class Book {
     private int id;
     private String name;
@@ -106,6 +108,22 @@ public class Book {
                 ",\nКоличество страниц: " + pages +
                 ",\nПереплет: '" + binding + '\'' +
                 ",\nЦена: " + price + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id && yearOfPublishing == book.yearOfPublishing && pages == book.pages &&
+                price == book.price && Objects.equals(name, book.name) &&
+                Objects.equals(authors, book.authors) && Objects.equals(publishing, book.publishing) &&
+                Objects.equals(binding, book.binding);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, authors, publishing, yearOfPublishing, pages, price, binding);
     }
 
     public boolean checkAuthor(String author) {
