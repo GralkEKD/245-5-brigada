@@ -7,18 +7,28 @@ import java.util.List;
 
 
 public class Biker {
-    private final String name;
     private final List<Protection> protectionList = new ArrayList<>();
 
-    public Biker(String name, Helmet helmet, ElbowPads elbowPads, KneePads kneePads) {
-        this.name = name;
+    public Biker(Helmet helmet, ElbowPads elbowPads, KneePads kneePads) {
         protectionList.add(helmet);
         protectionList.add(elbowPads);
         protectionList.add(kneePads);
     }
 
-    public String getName() {
-        return name;
+    public List<Protection> getProtectionList() { return protectionList; }
+    public static String getProtectionByName(List<Protection> protectionList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Protection elem :
+                protectionList) {
+            if (elem instanceof Helmet) {
+                stringBuilder.append("Шлем\n");
+            } else if (elem instanceof ElbowPads) {
+                stringBuilder.append("Налокотники\n");
+            } else if (elem instanceof KneePads) {
+                stringBuilder.append("Наколенники\n");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     public Helmet getHelmet() {
