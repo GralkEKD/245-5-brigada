@@ -22,21 +22,15 @@ public class Main {
             try {
                 PPEVM.lab4.starSystem.Menu userChoice = Menu.valueOf(sc.next());
                 switch (userChoice) {
-                    case n:
-                        star.printNumberOfPlanets();
-                        break;
-                    case s:
-                        System.out.println("Название звезды: " +
-                                star.getStarName());
-                        break;
-                    case a:
+                    case n -> star.printNumberOfPlanets();
+                    case s -> System.out.println("Название звезды: " +
+                            star.getStarName());
+                    case a -> {
                         System.out.print("Введите название для новой планеты: ");
                         String name = sc.next();
                         star.addPlanet(name);
-                        break;
-                    case q:
-                        flag = false;
-                        break;
+                    }
+                    case q -> flag = false;
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка: неверно введено значение");
