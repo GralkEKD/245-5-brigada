@@ -9,14 +9,12 @@ public class Converter {
      * @param isArch предикат для проверки принадлежности вершины дуге
      * @param isEdge предикат для проверки принадлежности вершины ребру
      * @param isLoop предикат для проверки принадлежности вершины петле
-     * @return число отрезков в графе
      */
-    private static int countSegments(
+    private static void countSegments(
             int[][] matrix,
             IntMatrixPredicate isArch,
             IntMatrixPredicate isEdge,
             IntMatrixPredicate isLoop) {
-        int segments = 0;
         for (int i = 0; i < vertexes; i++) {
             for (int j = i; j < vertexes; j++) {
                 if (isArch.test(matrix, i, j) ||
@@ -26,7 +24,6 @@ public class Converter {
                 }
             }
         }
-        return segments;
     }
 
     /**
@@ -48,6 +45,8 @@ public class Converter {
      * сооветствующих методах.
      */
     private static int vertexes;
+
+    private static int segments;
 
     /**
      * Метод, возвращающий матрицу инцидентности, полученную из переданой матрицы смежности
@@ -71,7 +70,7 @@ public class Converter {
         Предикат для проверки принадлежности вершины xi петле
          */
         IntMatrixPredicate isLoop = (arr, i, j) -> i == j && arr[i][j] == 1;
-        int segments = countSegments(adjacent, isArch, isEdge, isLoop);
+        countSegments(adjacent, isArch, isEdge, isLoop);
         int[][] incident = new int[vertexes][segments];
         int currentSegment = 0;
         for (int i = 0; i < vertexes; i++) {
@@ -88,7 +87,7 @@ public class Converter {
                         incident[i][currentSegment++] = -1;
                     }
                 } else if (isLoop.test(adjacent, i, j)) {
-                    incident[i][currentSegment++] = 1;
+                    incident[i][currentSegment++] = 3;
                 }
             }
         }
@@ -107,9 +106,9 @@ public class Converter {
 
         IntMatrixPredicate isEdge = (matrix, rowIndex, colIndex) -> columnSum(matrix, colIndex) == 2;
 
-        IntMatrixPredicate isLoop = (matrix, rowIndex, colIndex) -> columnSum(matrix, colIndex) == 1;
+        IntMatrixPredicate isLoop = (matrix, rowIndex, colIndex) -> columnSum(matrix, colIndex) == 3;
 
-        int segments = incident[0].length;
+        segments = incident[0].length;
         int[][] adjacent = new int[vertexes][vertexes];
         for (int j = 0; j < segments; j++) {
             if (isEdge.test(incident, 0, j)) {
@@ -135,7 +134,7 @@ public class Converter {
                 adjacent[adjRow][adjCol] = 1;
             } else if (isLoop.test(incident, 0, j)) {
                 for (int i = 0; i < vertexes; i++) {
-                    if (incident[i][j] == 1) {
+                    if (incident[i][j] == 3) {
                         adjacent[i][i] = 1;
                         break;
                     }
@@ -143,5 +142,32 @@ public class Converter {
             }
         }
         return adjacent;
+    }
+    public static int[][] directMatch(int[][] incident) {
+        int[][] matches = new int[vertexes][];
+        for (int i = 0; i < vertexes; i++) {
+            int matchCount = 0;
+            for (int j = 0; j < segments; j++) {
+                if (incident[i][j] == 1 || incident[i][j] == 3) {
+                    matchCount++;
+                }
+            }
+            matches[i] = new int[matchCount];
+        }
+        for (int i = 0; i < vertexes; i++) {
+            int current = 0;
+            for (int j = 0; j < segments; j++) {
+                if (incident[i][j] == 3) matches[i][current++] = i + 1;
+                else if (incident[i][j] == 1) {
+                    for (int j1 = 0; j1 < vertexes; j1++) {
+                        if (incident[j1][j] == 1 && j1 != i || incident[j1][j] == -1) {
+                            matches[i][current++] = j1 + 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return matches;
     }
 }
