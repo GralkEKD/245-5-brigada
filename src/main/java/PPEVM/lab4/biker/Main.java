@@ -40,6 +40,7 @@ public class Main {
                         System.out.println("Аммуниция в диапазоне от " + min + " до " + max + " :\n" + result);
                     }
                     case q -> cont = false;
+                    default -> {}
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка: неверно введено значение");
