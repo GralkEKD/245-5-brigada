@@ -16,7 +16,7 @@ public class Biker {
     }
 
     public List<Protection> getProtectionList() { return protectionList; }
-    public static String getProtectionByName(List<Protection> protectionList) {
+    public static String getProtectionNames(List<Protection> protectionList) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Protection elem :
                 protectionList) {
