@@ -1,5 +1,6 @@
 package DMSAPR.lab1;
 
+import DMSAPR.function.IntMatrixPredicate;
 
 public class Converter {
 

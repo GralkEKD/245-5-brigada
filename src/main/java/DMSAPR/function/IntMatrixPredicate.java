@@ -1,4 +1,4 @@
-package DMSAPR.lab1;
+package DMSAPR.function;
 
 /**
  * Функциональный интерфейс, имеющий метод {@code test}, возвращающий {@code boolean}. Позволяет провести проверку
