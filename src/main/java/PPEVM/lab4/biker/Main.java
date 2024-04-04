@@ -29,14 +29,14 @@ public class Main {
                     case s -> {
                         TaskMethods.sortByWeight(biker);
                         System.out.println("Аммуниция в порядке возрастания веса:\n" +
-                                Biker.getProtectionByName(biker.getProtectionList()));
+                                Biker.getProtectionNames(biker.getProtectionList()));
                     }
                     case r -> {
                         System.out.print("Введите минимальную цену: ");
                         double min = input.nextDouble();
                         System.out.print("Введите максимальную цену: ");
                         double max = input.nextDouble();
-                        String result = TaskMethods.getProtectionInRange(min, max, biker);
+                        String result = Biker.getProtectionNames(TaskMethods.getProtectionInRange(min, max, biker));
                         System.out.println("Аммуниция в диапазоне от " + min + " до " + max + " :\n" + result);
                     }
                     case q -> cont = false;

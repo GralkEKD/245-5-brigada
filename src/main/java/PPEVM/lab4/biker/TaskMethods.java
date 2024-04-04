@@ -96,7 +96,7 @@ public class TaskMethods {
         protectionList.sort(compareWeight);
     }
 
-    public static String getProtectionInRange(double priceL, double priceH, Biker biker) {
+    public static List<Protection> getProtectionInRange(double priceL, double priceH, Biker biker) {
         List<Protection> protectionList = biker.getProtectionList();
         List<Protection> protectionInRange = new ArrayList<>();
         for (Protection piece : protectionList) {
@@ -104,6 +104,6 @@ public class TaskMethods {
                 protectionInRange.add(piece);
             }
         }
-        return Biker.getProtectionByName(protectionInRange);
+        return protectionInRange;
     }
 }

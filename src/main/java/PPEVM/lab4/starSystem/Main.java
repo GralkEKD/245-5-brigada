@@ -22,9 +22,8 @@ public class Main {
             try {
                 PPEVM.lab4.starSystem.Menu userChoice = Menu.valueOf(sc.next());
                 switch (userChoice) {
-                    case n -> star.printNumberOfPlanets();
-                    case s -> System.out.println("Название звезды: " +
-                            star.getStarName());
+                    case n -> System.out.println("Количество планет: " + star.printNumberOfPlanets());
+                    case s -> System.out.println("Название звезды: " + star.getStarName());
                     case a -> {
                         System.out.print("Введите название для новой планеты: ");
                         String name = sc.next();

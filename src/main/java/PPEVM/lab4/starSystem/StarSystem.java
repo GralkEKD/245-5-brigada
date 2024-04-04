@@ -14,10 +14,7 @@ public class StarSystem {
         planets.add(new Planet(planet));
     }
 
-    public void printNumberOfPlanets() {
-        System.out.println("Количество планет в солнечной системе: " +
-                planets.size());
-    }
+    public int printNumberOfPlanets() { return planets.size(); }
 
     public String getStarName() {
         return starName.getName();
