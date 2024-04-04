@@ -2,7 +2,16 @@ package DMSAPR.lab2;
 
 import DMSAPR.function.*;
 
-public class TopologicalSorting {
+import java.util.Arrays;
+
+public class Dynamic {
+    private static int min(int... nums) {
+        int min = Integer.MAX_VALUE;
+        for (int elem : nums) {
+            if (elem < min) min = elem;
+        }
+        return min;
+    }
     public static int[][] sortedIncident(int[][] incidence) {
         IntMatrixConsumer nullifyColumn = ((matrix, rowIndex, colIndex) -> {
             for (int i = 0; i < matrix.length; i++) {
@@ -38,6 +47,24 @@ public class TopologicalSorting {
         return returned;
     }
 
+    public static int shortestWayAdjacent(int[][] adjacency) {
+        int[] marks = new int[adjacency.length];
+        Arrays.fill(marks, Integer.MAX_VALUE);
+        marks[0] = 0;
+        for (int i = 1; i < adjacency.length; i++) {
+            int[] nums = new int[adjacency.length];
+            for (int j = 0; j < adjacency.length; j++) {
+                if (adjacency[j][i] == Integer.MAX_VALUE || marks[j] == Integer.MAX_VALUE) {
+                    nums[j] = Integer.MAX_VALUE;
+                } else {
+                    nums[j] = marks[j] + adjacency[j][i];
+                }
+            }
+            marks[i] = min(nums);
+        }
+        return marks[marks.length - 1];
+    }
+
     public static int[][] sortedAdjacent(int[][] adjacency) {
         IntMatrixPredicate isRowZero = ((matrix, rowIndex, colIndex) -> {
             int s = 0, k = 0;
@@ -56,6 +83,7 @@ public class TopologicalSorting {
             returned[row] = new int[adjacency[row].length];
         }
         int i = adjacency.length;
+        int[] indices = new int[i];
         while (i > 0) {
             for (int k = 0; k < adjacency.length; k++) {
                 if (isRowZero.test(copy, k, 0)) {
@@ -63,9 +91,15 @@ public class TopologicalSorting {
                         copy[j][k] = Integer.MIN_VALUE;
                         copy[k][j] = Integer.MIN_VALUE;
                     }
-                    System.arraycopy(adjacency[k], 0, returned[--i], 0, adjacency.length);
+                    indices[--i] = k;
                     break;
                 }
+            }
+        }
+        for (i = 0; i < adjacency.length; i++) {
+            for (int j = 0; j < adjacency.length; j++) {
+                int inserted = adjacency[indices[i]][indices[j]];
+                returned[i][j] = inserted == 0 ? Integer.MAX_VALUE : inserted;
             }
         }
         return returned;
@@ -75,7 +109,7 @@ public class TopologicalSorting {
         StringBuilder stringBuilder = new StringBuilder();
         for (int[] row : matrix) {
             for (int elem : row) {
-                stringBuilder.append(elem).append("\t");
+                stringBuilder.append(elem == Integer.MAX_VALUE ? "%" : elem).append("\t");
             }
             stringBuilder.append("\n");
         }
