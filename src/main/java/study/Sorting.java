@@ -20,7 +20,7 @@ public class Sorting {
      * @param index1 an index of the first element
      * @param index2 an index of the second element
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     private static void swap(double[] array, int index1, int index2) {
         double aux = array[index1];
         array[index1] = array[index2];
@@ -34,13 +34,19 @@ public class Sorting {
      * @param index2 an index of the second element
      * @param <T> object type which is stored on the array
      */
-    private static <T extends Comparable<T>> void swap(T[] array, int index1, int index2) {
+    private static <T extends Comparable<T>> void swap(T[] array, final int index1, final int index2) {
         T aux = array[index1];
         array[index1] = array[index2];
         array[index2] = aux;
     }
 
-    private static void arrayToMaxHeap(double[] array) {
+    private static <T extends Comparable<T>> void insert(T[] array, final int elementIndex, final int insertionIndex) {
+        T temp = array[elementIndex];
+        System.arraycopy(array, insertionIndex, array, insertionIndex + 1, elementIndex - insertionIndex);
+        array[insertionIndex] = temp;
+    }
+
+    private static void heapify(double[] array) {
 
     }
 
@@ -105,6 +111,21 @@ public class Sorting {
              */
             if (maxIndex == i) swap(array, minIndex, endingPosition);
             else swap(array, maxIndex, endingPosition);
+        }
+    }
+
+    public static <T extends Comparable<T>> void insertionSort(T[] array) {
+        insertionSort(array, Comparator.naturalOrder());
+    }
+
+    public static <T extends Comparable<T>> void insertionSort(T[] array, Comparator<T> order) {
+        for (int i = 1; i < array.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (order.compare(array[i], array[j]) < 0) {
+                    insert(array, i, j);
+                    break;
+                }
+            }
         }
     }
 
@@ -226,28 +247,32 @@ public class Sorting {
     }
 
     public static <T extends Comparable<T>> void quickSort(T[] array) {
-        quickSort(array, 0, array.length - 1);
+        quickSort(array, Comparator.naturalOrder(), 0, array.length - 1);
     }
 
-    public static <T extends Comparable<T>> void quickSort(T[] array, int start, int end) {
+    public static <T extends Comparable<T>> void quickSort(T[] array, Comparator<T> order) {
+        quickSort(array, order, 0, array.length - 1);
+    }
+
+    public static <T extends Comparable<T>> void quickSort(T[] array, Comparator<T> order, int start, int end) {
         if (start == end) return;
         if (end - start == 1) {
-            if (array[start].compareTo(array[end]) > 0) {
+            if (order.compare(array[start], array[end]) > 0) {
                 swap(array, start, end);
             }
         } else {
             T pivot = array[start];
             int pointerA = start + 1, pointerB = end;
             while (pointerA != pointerB) {
-                while (array[pointerA].compareTo(pivot) <= 0 && pointerA < pointerB) {
+                while (order.compare(array[pointerA], pivot) <= 0 && pointerA < pointerB) {
                     pointerA++;
                 }
-                while (array[pointerB].compareTo(pivot) > 0 && pointerA < pointerB) {
+                while (order.compare(array[pointerB], pivot) > 0 && pointerA < pointerB) {
                     pointerB--;
                 }
                 if (pointerA != pointerB) swap(array, pointerA, pointerB);
             }
-            if (array[pointerA].compareTo(pivot) <= 0) {
+            if (order.compare(array[pointerA], pivot) <= 0) {
                 System.arraycopy(array, start + 1, array, start, pointerA - start);
                 array[pointerA] = pivot;
             }
@@ -255,8 +280,8 @@ public class Sorting {
                 System.arraycopy(array, start + 1, array, start, pointerA - start);
                 array[pointerA - 1] = pivot;
             }
-            if (pointerA > start + 1) quickSort(array, start, pointerA - 1);
-            if (pointerB < end - 1) quickSort(array, pointerB, end);
+            if (pointerA > start + 1) quickSort(array, order, start, pointerA - 1);
+            if (pointerB < end) quickSort(array, order, pointerB, end);
             }
         }
     }

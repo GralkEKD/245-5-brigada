@@ -3,7 +3,9 @@ package study;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 public class SortingTest {
 
@@ -166,6 +168,55 @@ public class SortingTest {
     }
 
     @Test
+    public void insertionSortForDoubles1() {
+        Double[] array = {0.0, 0.7, 0.2, 0.1, 10.3, 6.8, 5.5, -1.4, -0.3, 3.1, 1.9, 5.5};
+        Sorting.shakerSort(array);
+        Assertions.assertArrayEquals(sortedDoublesArray1, array);
+    }
+
+    @Test
+    public void insertionSortForDoubles2() {
+        Double[] array = new Double[]{2.4, 1.2, 0.0, -0.8, -1.2};
+        Sorting.insertionSort(array);
+        Assertions.assertArrayEquals(sortedDoublesArray2, array);
+    }
+
+    @Test
+    public void insertionSortForDoubles2Descending() {
+        Double[] array = new Double[]{-1.2, -0.8, 0.0, 1.2, 2.4};
+        Sorting.insertionSort(array, Comparator.reverseOrder());
+        Assertions.assertArrayEquals(descendingSortedDoublesArray2, array);
+    }
+
+    @Test
+    public void insertionSortForDoubles3() {
+        Double[] array = new Double[]{20_000_000_000_000.9, -10_000_000_000_000.2};
+        Sorting.insertionSort(array);
+        Assertions.assertArrayEquals(sortedDoublesArray3, array);
+    }
+
+    @Test
+    public void insertionSortForIntegers1() {
+        Integer[] array = {0, 9, 15, -1, 29, 0, -4, 0, -8, 4};
+        Sorting.insertionSort(array);
+        Assertions.assertArrayEquals(sortedIntegersArray1, array);
+    }
+
+    @Test
+    public void insertionSortForIntegers2() {
+        Integer[] array = {5, 3, 0, -7, -10};
+        Sorting.insertionSort(array);
+        Assertions.assertArrayEquals(sortedIntegersArray2, array);
+    }
+
+    @Test
+    public void insertionSortForIntegers3() {
+        Integer[] array = {2_100_000_000, -2_100_000_000};
+        Sorting.insertionSort(array);
+        Assertions.assertArrayEquals(sortedIntegersArray3, array);
+    }
+
+    @Test
     public void mergeSortForDoubles1() {
         Double[] array = {0.0, 0.7, 0.2, 0.1, 10.3, 6.8, 5.5, -1.4, -0.3, 3.1, 1.9, 5.5};
         Sorting.mergeSort(array);
@@ -255,6 +306,7 @@ public class SortingTest {
         Sorting.quickSort(array);
         Assertions.assertArrayEquals(sortedIntegersArray3, array);
     }
+
     @Test
     public void shakerSortForDoubles1() {
         Double[] array = {0.0, 0.7, 0.2, 0.1, 10.3, 6.8, 5.5, -1.4, -0.3, 3.1, 1.9, 5.5};
@@ -267,6 +319,13 @@ public class SortingTest {
         Double[] array = new Double[]{2.4, 1.2, 0.0, -0.8, -1.2};
         Sorting.shakerSort(array);
         Assertions.assertArrayEquals(sortedDoublesArray2, array);
+    }
+
+    @Test
+    public void quickSortForDoubles2Descending() {
+        Double[] array = new Double[]{-1.2, -0.8, 0.0, 1.2, 2.4};
+        Sorting.quickSort(array, Comparator.reverseOrder());
+        Assertions.assertArrayEquals(descendingSortedDoublesArray2, array);
     }
 
     @Test
@@ -295,5 +354,145 @@ public class SortingTest {
         Integer[] array = {2_100_000_000, -2_100_000_000};
         Sorting.shakerSort(array);
         Assertions.assertArrayEquals(sortedIntegersArray3, array);
+    }
+
+    @Test
+    public void randomArrayInsertionSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.insertionSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArraySelectionSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.selectionSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArrayDoubleSelectionSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.doubleSelectionSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArrayBubbleSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.bubbleSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArrayShakerSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.shakerSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArrayMergeSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.mergeSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
+    }
+
+    @Test
+    public void randomArrayQuickSort() {
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 100; i++) {
+            Integer[] sortedArray = new Integer[100]; // Array to be sorted with stdlib algorithm
+            Integer[] unsortedArray; // Array to be sorted with my algorithm
+            random.ints(100)
+                    .boxed()
+                    .toList()
+                    .toArray(sortedArray);
+            unsortedArray = sortedArray.clone();
+            Arrays.stream(sortedArray)
+                    .sorted()
+                    .toList()
+                    .toArray(sortedArray);
+            Sorting.quickSort(unsortedArray);
+            Assertions.assertArrayEquals(sortedArray, unsortedArray);
+        }
     }
 }
