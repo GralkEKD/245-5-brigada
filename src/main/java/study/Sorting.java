@@ -11,21 +11,6 @@ import java.util.Comparator;
  */
 public class Sorting {
 
-    /**
-     * DEPRECATED: this {@code swap(...)} method was being used on arrays of primitive doubles. As for now, any array
-     * consists of {@code Comparable} type objects
-     * <p>
-     * Swaps two array elements' places. Just a simple element of a program logic which is sometimes repeatedly called.
-     * @param array array where the elements need to be swapped
-     * @param index1 an index of the first element
-     * @param index2 an index of the second element
-     */
-    @Deprecated(forRemoval = true)
-    private static void swap(double[] array, int index1, int index2) {
-        double aux = array[index1];
-        array[index1] = array[index2];
-        array[index2] = aux;
-    }
 
     /**
      * Swaps two array elements' places. Just a simple element of a program logic which is sometimes repeatedly called.
@@ -44,10 +29,6 @@ public class Sorting {
         T temp = array[elementIndex];
         System.arraycopy(array, insertionIndex, array, insertionIndex + 1, elementIndex - insertionIndex);
         array[insertionIndex] = temp;
-    }
-
-    private static void heapify(double[] array) {
-
     }
 
     public static <T extends Comparable<T>> void selectionSort(T[] array) {
