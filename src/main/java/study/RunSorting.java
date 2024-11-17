@@ -4,19 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Random;
 
 public class RunSorting {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         long seed;
         try (BufferedReader reader = Files.newBufferedReader(
-                Paths.get("/home/gralkekd/IdeaProjects/245-5-brigada/src/main/java/study/seed.txt")
+                Path.of("src", "main", "java", "study", "seed.txt")
         )) {
             BigInteger integer = new BigInteger(reader.readLine(), 16);
             seed = integer.longValue();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
         long mean = 0;
         int num = 100;
