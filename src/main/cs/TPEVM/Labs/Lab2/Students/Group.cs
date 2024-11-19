@@ -5,50 +5,47 @@ namespace Students
     public class Group
     {
         public string Number {get; set;} = string.Empty;
-        public Dictionary<uint, Student> Students = [];
+        private readonly Dictionary<uint, Student> _students = [];
 
         public Group() {}
 
-        public Group(string Number)
+        public Group(string number)
         {
-            this.Number = Number;
+            Number = number;
         }
 
-        internal Group(string Number, Student[] Students)
+        internal Group(string number, Student[] students)
         {
-            this.Number = Number;
-            foreach (var student in Students)
+            Number = number;
+            foreach (var student in students)
             {
-                this.Students.Add(student.Id, student);
+                _students.Add(student.Id, student);
             }
         }
 
         public bool Add(Student student)
         {
-            return Students.TryAdd(student.Id, student);
+            return _students.TryAdd(student.Id, student);
         }
 
-        public bool Remove(uint Id)
+        public bool Remove(uint id)
         {
-            return Students.Remove(Id);
+            return _students.Remove(id);
         }
 
-        public Student this[uint Id]
-        {
-            get => Students[Id];
-        }
+        public Student this[uint id] => _students[id];
 
         public string GetInfo()
         {
             StringBuilder stringBuilder = new();
-            List<Student> studentValues = [.. Students.Values];
+            List<Student> studentValues = [.. _students.Values];
             studentValues.Sort(
-                (x1, x2) => x1.LastName.CompareTo(x2.LastName)
+                (x1, x2) => string.Compare(x1.LastName, x2.LastName, StringComparison.Ordinal)
             );
             foreach (var student in studentValues)
             {
                 stringBuilder.Append('\t');
-                stringBuilder.Append(student.ToString());
+                stringBuilder.Append(student);
                 stringBuilder.Append('\n');
             }
             return stringBuilder.ToString();

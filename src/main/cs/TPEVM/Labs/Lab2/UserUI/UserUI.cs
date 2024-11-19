@@ -2,13 +2,13 @@ using Students;
 
 namespace UserUI
 {
-    public class UserUI
+    public static class UserUI
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            Dictionary<string, Group> groups = GroupActions.InitializeGroupsMap();
+            var groups = GroupActions.InitializeGroupsMap();
 #pragma warning disable CS8601, CS8602, CS8604 // Да знаю я, что там null может быть, ни разу с ним не встретился
-            string? input = string.Empty;
+            var input = string.Empty;
             while (!input.Equals("7"))
             {
                 Console.Clear();
@@ -56,7 +56,7 @@ namespace UserUI
                         Console.Write("Введите номер группы: ");
                         try
                         {
-                            Group toAdd = groups[Console.ReadLine()];
+                            var toAdd = groups[Console.ReadLine()];
                             Student toBeAdded = new();
                             Console.WriteLine("Номер зачетной книжки: " + toBeAdded.Id);
                             Console.Write("Фамилия: ");
@@ -66,18 +66,19 @@ namespace UserUI
                             Console.Write("Отчество: ");
                             toBeAdded.SecondName = Console.ReadLine();
                             Console.Write("Адрес: ");
-                            toBeAdded.Adress = Console.ReadLine();
+                            toBeAdded.Address = Console.ReadLine();
                             Console.Write("Год рождения: ");
-                            int year = Convert.ToInt32(Console.ReadLine());
+                            var year = Convert.ToInt32(Console.ReadLine());
                             Console.Write("Месяц рождения: ");
-                            int month = Convert.ToInt32(Console.ReadLine());
+                            var month = Convert.ToInt32(Console.ReadLine());
                             Console.Write("День рождения: ");
-                            int day = Convert.ToInt32(Console.ReadLine());
+                            var day = Convert.ToInt32(Console.ReadLine());
                             toBeAdded.BirthDate = new(year, month, day);
                             Console.Write("Телефон: ");
                             toBeAdded.PhoneNumber = Console.ReadLine();
-                            if (toAdd.Add(toBeAdded)) Console.WriteLine("Студент добавлен!");
-                            else Console.WriteLine("Произошла ошибка при попытке добавления студента");
+                            Console.WriteLine(toAdd.Add(toBeAdded)
+                                ? "Студент добавлен!"
+                                : "Произошла ошибка при попытке добавления студента");
                         }
                         catch (KeyNotFoundException)
                         {
@@ -90,10 +91,11 @@ namespace UserUI
                         Console.Write("Введите номер группы: ");
                         try
                         {
-                            Group toBeRemovedFrom = groups[Console.ReadLine()];
+                            var toBeRemovedFrom = groups[Console.ReadLine()];
                             Console.Write("Введите номер зачетной книжки студента: ");
-                            if (toBeRemovedFrom.Remove(Convert.ToUInt32(Console.ReadLine()))) Console.WriteLine("Студент удален :(");
-                            else Console.WriteLine("Студент не найден");
+                            Console.WriteLine(toBeRemovedFrom.Remove(Convert.ToUInt32(Console.ReadLine()))
+                                ? "Студент удален :("
+                                : "Студент не найден");
                         }
                         catch (KeyNotFoundException)
                         {
@@ -106,9 +108,9 @@ namespace UserUI
                         Console.Write("Введите номер группы: ");
                         try
                         {
-                            Group toBeLooked = groups[Console.ReadLine()];
+                            var toBeLooked = groups[Console.ReadLine()];
                             Console.Write("Введите номер зачетной книжки студента: ");
-                            uint id = Convert.ToUInt32(Console.ReadLine());
+                            var id = Convert.ToUInt32(Console.ReadLine());
                             Console.WriteLine(toBeLooked[id]);
                         }
                         catch (KeyNotFoundException)
