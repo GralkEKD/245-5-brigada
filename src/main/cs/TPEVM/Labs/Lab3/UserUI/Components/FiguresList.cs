@@ -32,9 +32,10 @@ public class FiguresList
         StringBuilder stringBuilder = new();
         for (int i = 0; i < _figures.Count; i++)
         {
+            
             stringBuilder.Append(i);
             stringBuilder.Append(": ");
-            stringBuilder.Append(_figures[i]);
+            stringBuilder.Append(this[i]);
             stringBuilder.Append('\n');
         }
 

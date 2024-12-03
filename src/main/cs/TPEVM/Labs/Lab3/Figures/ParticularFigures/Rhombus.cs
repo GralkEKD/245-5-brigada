@@ -29,7 +29,7 @@ public class Rhombus : Parallelogram
         return base.BuildFigureInfo(Name);
     }
 
-    protected new virtual string ToString()
+    public override string ToString()
     {
         return BuildFigureInfo().ToString();
     }

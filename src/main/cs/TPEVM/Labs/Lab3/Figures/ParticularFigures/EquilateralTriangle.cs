@@ -18,14 +18,14 @@ public class EquilateralTriangle : RegularPolygon
 
     public new double Perimeter => 3 * SideLength;
 
-    public new double Area => Math.Sqrt(3) / 4 * SideLength;
+    public new double Area => Math.Sqrt(3) / 4 * Math.Pow(SideLength, 2);
     
     private StringBuilder BuildFigureInfo()
     {
         return base.BuildFigureInfo(Name);
     }
 
-    public new string ToString()
+    public override string ToString()
     {
         return BuildFigureInfo().ToString();
     }

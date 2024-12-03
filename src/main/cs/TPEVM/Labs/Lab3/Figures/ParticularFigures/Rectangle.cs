@@ -19,7 +19,7 @@ public class Rectangle : Parallelogram
         return base.BuildFigureInfo(Name);
     }
 
-    protected new virtual string ToString()
+    public override string ToString()
     {
         return BuildFigureInfo().ToString();
     }

@@ -9,14 +9,14 @@ public abstract class Figure
     public abstract double Area { get; }
     public Color Color { set; get; } = Color.Black;
 
-    private new string ToString()
+    private string ThisToString()
     {
         StringBuilder stringBuilder = new();
-        stringBuilder.Append(" Цвет: ");
+        stringBuilder.Append(", Цвет: ");
         stringBuilder.Append(Color.ToKnownColor());
-        stringBuilder.Append(" Периметр: ");
+        stringBuilder.Append(", Периметр: ");
         stringBuilder.Append(Perimeter);
-        stringBuilder.Append(" Площадь: ");
+        stringBuilder.Append(", Площадь: ");
         stringBuilder.Append(Area);
         return stringBuilder.ToString();
     }
@@ -25,7 +25,7 @@ public abstract class Figure
     {
         StringBuilder stringBuilder = new("Фигура: ");
         stringBuilder.Append(name);
-        stringBuilder.Append(ToString());
+        stringBuilder.Append(ThisToString());
         return stringBuilder;
     }
 }

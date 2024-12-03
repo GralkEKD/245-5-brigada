@@ -50,7 +50,7 @@ public class RegularPolygon : Figure
         return base.BuildFigureInfo(Name);
     }
 
-    public new string ToString()
+    public override string ToString()
     {
         return BuildFigureInfo().ToString();
     }

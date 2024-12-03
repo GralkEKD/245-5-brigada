@@ -10,5 +10,7 @@ public static class UserUI
         FiguresList figuresList = new();
         FiguresList.SampleFill(figuresList);
         
+        Console.WriteLine("Фигуры:");
+        Console.WriteLine(figuresList.FiguresInfo());
     }
 }

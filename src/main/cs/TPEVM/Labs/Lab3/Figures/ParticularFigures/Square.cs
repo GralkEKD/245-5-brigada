@@ -29,7 +29,7 @@ public class Square : RegularPolygon
         return base.BuildFigureInfo(Name);
     }
 
-    public new string ToString()
+    public override string ToString()
     {
         return BuildFigureInfo().ToString();
     }
