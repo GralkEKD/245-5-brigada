@@ -12,10 +12,6 @@ public class Rectangle : Parallelogram
     {
     }
 
-    public Rectangle(double sideA, double sideB, bool isAngleInDegrees) : base(sideA, sideB, 90.0, isAngleInDegrees)
-    {
-    }
-
     public override double Area => SideA * SideB;
 
     private StringBuilder BuildFigureInfo()

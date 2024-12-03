@@ -5,26 +5,26 @@ namespace Students
 {
     public class Student
     {
-        private static uint AutoId = 0;
+        private static uint _autoId;
 
-        public uint Id { get; } = AutoId++;
+        public uint Id { get; } = _autoId++;
         public string LastName { set; get; } = string.Empty;
         public string FirstName { set; get; } = string.Empty;
         public string SecondName { set; get; } = string.Empty;
-        public string Adress { set; get; } = string.Empty;
-        public DateOnly BirthDate { set; get; } = new();
+        public string Address { set; get; } = string.Empty;
+        public DateOnly BirthDate { set; get; }
         public string PhoneNumber { set; get; } = string.Empty;
 
         public Student() {}
 
-        public Student(string LastName, string FirstName, string SecondName, string Adress, DateOnly BirthDate, string PhoneNumber) 
+        public Student(string lastName, string firstName, string secondName, string address, DateOnly birthDate, string phoneNumber) 
         {
-            this.LastName = LastName;
-            this.FirstName = FirstName;
-            this.SecondName = SecondName;
-            this.Adress = Adress;
-            this.BirthDate = BirthDate;
-            this.PhoneNumber = PhoneNumber;
+            this.LastName = lastName;
+            this.FirstName = firstName;
+            this.SecondName = secondName;
+            this.Address = address;
+            this.BirthDate = birthDate;
+            this.PhoneNumber = phoneNumber;
         }
 
         public override string ToString()
@@ -39,7 +39,7 @@ namespace Students
             stringBuilder.Append(", Отчество: ");
             stringBuilder.Append(!SecondName.Equals(string.Empty) ? SecondName : '-');
             stringBuilder.Append(", Адрес: ");
-            stringBuilder.Append(Adress);
+            stringBuilder.Append(Address);
             stringBuilder.Append(", Дата рождения: ");
             stringBuilder.Append(BirthDate.ToLongDateString());
             stringBuilder.Append(", Телефон: ");
@@ -49,20 +49,18 @@ namespace Students
 
         public override bool Equals(object? obj)
         {
-            if (obj == null || obj is not Student) return false;
-            Student student = (Student) obj;
-            return this.Id == student.Id &&
-                    this.SecondName.Equals(student.SecondName) &&
-                    this.FirstName.Equals(student.FirstName) && 
-                    this.LastName.Equals(student.LastName) && 
-                    this.Adress.Equals(student.Adress) &&
-                    this.BirthDate.Equals(student.BirthDate) && 
-                    this.PhoneNumber.Equals(student.PhoneNumber);
+            if (obj is not Student student) return false;
+            return this.SecondName.Equals(student.SecondName) &&
+                   this.FirstName.Equals(student.FirstName) && 
+                   this.LastName.Equals(student.LastName) && 
+                   this.Address.Equals(student.Address) &&
+                   this.BirthDate.Equals(student.BirthDate) && 
+                   this.PhoneNumber.Equals(student.PhoneNumber);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, LastName, SecondName, FirstName, Adress, BirthDate, PhoneNumber);
+            return HashCode.Combine(Id, LastName, SecondName, FirstName, Address, BirthDate, PhoneNumber);
         }
     }
 }

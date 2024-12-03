@@ -18,7 +18,7 @@ public class EquilateralTriangle : RegularPolygon
 
     public new double Perimeter => 3 * SideLength;
 
-    public new double Area => (Math.Sqrt(3) / 4) * SideLength;
+    public new double Area => Math.Sqrt(3) / 4 * SideLength;
     
     private StringBuilder BuildFigureInfo()
     {

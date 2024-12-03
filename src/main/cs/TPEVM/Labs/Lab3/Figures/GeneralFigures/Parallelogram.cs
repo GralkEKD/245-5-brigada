@@ -6,7 +6,7 @@ public class Parallelogram : Figure
 {
     private const string Name = "Параллелограм";
 
-    public bool IsAngleInDegrees { set; get; } = true;
+    public AngleUnit Unit { set; get; } = AngleUnit.Degrees;
 
     public Parallelogram()
     {
@@ -19,12 +19,12 @@ public class Parallelogram : Figure
         _angle = angle;
     }
     
-    public Parallelogram(double sideA, double sideB, double angle, bool isAngleInDegrees)
+    public Parallelogram(double sideA, double sideB, double angle, AngleUnit angleUnit)
     {
         SideA = sideA;
         SideB = sideB;
         _angle = angle;
-        IsAngleInDegrees = isAngleInDegrees;
+        Unit = angleUnit;
     }
 
     public double SideA { set; get; }
@@ -36,21 +36,32 @@ public class Parallelogram : Figure
         get => _angle;
         set
         {
-            switch (IsAngleInDegrees) // Вот за что я люблю JetBrains
+            switch (Unit) 
             {
-                case true when value is > 0 and < 180: // Я даже не понимаю, что здесь происходит, а он взял и написал
-                case false when value is > 0 and < Math.PI: // SQL какой-то...
+                case AngleUnit.Degrees when value is > 0 and < 180: 
+                case AngleUnit.Radians when value is > 0 and < Math.PI: 
                     _angle = value;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unit " + Unit + " is undefined");
             }
         }
     }
 
     public override double Perimeter => 2 * SideA + 2 * SideB;
 
-    public override double Area => !IsAngleInDegrees ? 
-        SideA * SideB * Math.Sin(_angle) : 
-        SideA * SideB * Math.Sin(_angle * Math.PI / 180);
+    public override double Area
+    {
+        get
+        {
+            return Unit switch
+            {
+                AngleUnit.Degrees => SideA * SideB * Math.Sin(_angle * Math.PI / 180),
+                AngleUnit.Radians => SideA * SideB * Math.Sin(_angle),
+                _ => throw new ArgumentOutOfRangeException("Unit " + Unit + " is undefined")
+            };
+        }
+    }
 
     private StringBuilder BuildFigureInfo()
     {

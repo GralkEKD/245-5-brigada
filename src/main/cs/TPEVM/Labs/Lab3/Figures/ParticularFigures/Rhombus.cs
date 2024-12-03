@@ -12,7 +12,7 @@ public class Rhombus : Parallelogram
     {
     }
 
-    public Rhombus(double sideA, double angle, bool isAngleInDegrees) : base(sideA, sideA, angle, isAngleInDegrees)
+    public Rhombus(double sideA, double angle, AngleUnit angleUnit) : base(sideA, sideA, angle, angleUnit)
     {
     }
 
@@ -23,8 +23,6 @@ public class Rhombus : Parallelogram
     }
 
     public override double Perimeter => 4 * SideA;
-
-    public override double Area => Math.Pow(SideA, 2) * Math.Sin(IsAngleInDegrees ? (Angle * Math.PI / 180.0) : Angle);
     
     private StringBuilder BuildFigureInfo()
     {
