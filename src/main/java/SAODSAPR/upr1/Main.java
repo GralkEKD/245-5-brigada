@@ -17,7 +17,7 @@ public class Main {
 
         long seed;
         try (BufferedReader reader = Files.newBufferedReader(
-                Path.of("src", "main", "java", "study", "seed.txt")
+                Path.of("src", "main", "java", "SAODSAPR", "upr1", "seed.txt")
         )) {
             BigInteger integer = new BigInteger(reader.readLine(), 16);
             seed = integer.longValue();
@@ -25,9 +25,9 @@ public class Main {
 
         Random random = new Random(seed);
         for (int i = 0; i < 60; i++) {
-            if (i < 10) array1[i] = random.nextInt(0, 100);
-            else if (i < 30) array2[i - 10] = random.nextInt(0, 100);
-            else array3[i - 30] = random.nextInt(0, 100);
+            if (i < 10) array1[i] = random.nextInt(-100, 100);
+            else if (i < 30) array2[i - 10] = random.nextInt(-100, 100);
+            else array3[i - 30] = random.nextInt(-100, 100);
         }
 
         System.out.println("Неотсортированные массивы:");
