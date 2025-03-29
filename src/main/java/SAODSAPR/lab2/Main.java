@@ -5,23 +5,36 @@ import java.util.Objects;
 public class Main {
     public static void main(String[] args) {
 //        Variant 1
-//        int[][] TA = {
-//                {2, 3, 0},
-//                {3, 0, 0},
-//                {2, 4, 5},
-//                {2, 5, 0},
-//                {0, 0, 0}
-//        };
-//
-//        Integer[][] TC = {
-//                {5, 2, 0},
-//                {7, 0, 0},
-//                {4, 6, 1},
-//                {3, 9, 0},
-//                {0, 0, 0}
-//        };
-//
-//        Variant1 variant1 = new Variant1(TA, TC);
+        int[][] TA = {
+                {1, 2, 6},
+                {2, 5, 0},
+                {0, 0, 0},
+                {2, 5, 0},
+                {0, 0, 0},
+                {1, 2, 5}
+        };
+
+        Integer[][] TC = {
+                {7, 6, 9},
+                {2, 1, 0},
+                {0, 0, 0},
+                {3, 9, 0},
+                {0, 0, 0},
+                {1, 4, 6}
+        };
+
+        Variant1 variant1 = new Variant1(TA, TC);
+
+        System.out.println("Таблица связей");
+        for (Number[] row : variant1.getMatrix()) {
+            System.out.print("[ ");
+            for (Number num : row) {
+                if (Objects.isNull(num)) System.out.print("0" + " ");
+                else System.out.print(num + " ");
+            }
+            System.out.println(']');
+        }
+        System.out.println();
 
 //        Variant 2
 //        Integer[] AL = {0, 0, 2, 1, 0, 1, 9, 0, 3, 9, 0, 2, 7, 0, 0};
@@ -34,9 +47,9 @@ public class Main {
 //        Variant3 variant3 = new Variant3(AL, I);
 
 //        Variant 4
-//        Integer[] AL = {5, 2, 7, 4, 6, 1, 3, 9};
-//        int[] J = {2, 3, 3, 2, 4, 5, 2, 5};
-//        int[] IC = {1, 3, 4, 7, 9, 9};
+//        Integer[] AL = {7, 6, 9, 2, 1, 3, 9, 1, 4, 6};
+//        int[] J = {1, 2, 6, 2, 5, 2, 5, 1, 2, 5};
+//        int[] IC = {1, 4, 6, 6, 8, 8, 11};
 //
 //        Variant4 variant4 = new Variant4(AL, J, IC);
 
@@ -55,11 +68,12 @@ public class Main {
 //        Variant6 variant6 = new Variant6(AL, I, J);
 
 //        Variant 7
-        Integer[] AL = {5, 2, 7, 4, 6, 1, 3, 9};
-        int[] K = {6, 11, 12, 8, 18, 23, 9, 24};
+        Integer[] AL = {7, 6, 9, 2, 1, 3, 9, 1, 4, 6};
+        int[] K = {1, 7, 31, 8, 26, 10, 28, 6, 12, 30};
 
         Variant7 variant7 = new Variant7(AL, K);
 
+        System.out.println("Строчная схема упаковки");
         for (Number[] row : variant7.getMatrix()) {
             System.out.print("[ ");
             for (Number num : row) {

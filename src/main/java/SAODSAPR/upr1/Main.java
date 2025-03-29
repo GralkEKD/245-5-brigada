@@ -6,14 +6,15 @@ import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        final Integer[] array1 = new Integer[10];
-        final Integer[] array2 = new Integer[20];
-        final Integer[] array3 = new Integer[30];
+        final Integer[] array1 = new Integer[10];//{-88, -66, -79, -66, -19, -33, -45, 24, 60, 50};
+        final Integer[] array2 = new Integer[20];//{-71, -65, -60, -65, -56, -47, -48, -27, -33, -32, -23, -11, 53, 37, 55, 34, 59, 68, 86, 67};
+        final Integer[] array3 = new Integer[30];//{-97, -90, -97, -90, -77, -42, -87, -82, -38, -23, -32, 2, -13, -12, 14, 6, 48, 22, 29, 45, 54, 56, 63, 62, 84, 64, 72, 87, 94, 90};
 
         long seed;
         try (BufferedReader reader = Files.newBufferedReader(
@@ -33,15 +34,19 @@ public class Main {
         System.out.println("Неотсортированные массивы:");
         System.out.println(Arrays.toString(array1) + '\n' + Arrays.toString(array2) + '\n' + Arrays.toString(array3));
         System.out.println("Отсортированные массивы:");
-        Sorting.bubbleSort(array1);
+//        Sorting.insertionSort(array1, Comparator.reverseOrder());
+//        Sorting.insertionSort(array2, Comparator.reverseOrder());
+//        Sorting.insertionSort(array3, Comparator.reverseOrder());
+
+        Sorting.shakerSort(array1);
         System.out.println(Arrays.toString(array1) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);
-        Sorting.bubbleSort(array2);
+        Sorting.shakerSort(array2);
         System.out.println(Arrays.toString(array2) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);
-        Sorting.bubbleSort(array3);
+        Sorting.shakerSort(array3);
         System.out.println(Arrays.toString(array3) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);
