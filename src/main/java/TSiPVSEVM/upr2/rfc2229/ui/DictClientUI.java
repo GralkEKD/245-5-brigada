@@ -8,14 +8,14 @@ public class DictClientUI {
 
     private static String query;
 
-    private static String definition;
+    private static JTextArea resultArea;
 
     public static String getQuery() {
         return query;
     }
 
     public static void setDefinition(String definition) {
-        DictClientUI.definition = definition;
+        DictClientUI.resultArea.setText(definition);
     }
 
     public static void main(String[] args) {
