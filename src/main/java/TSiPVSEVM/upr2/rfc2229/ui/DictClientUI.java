@@ -25,7 +25,7 @@ public class DictClientUI {
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("DICT Protocol Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 450);
+        frame.setSize(800, 600);
         frame.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -47,11 +47,11 @@ public class DictClientUI {
         frame.add(new JLabel("Выберите стратегию поиска:"), gbc);
 
         gbc.gridy = 3;
-        String[] strategies = {"Определить слово",
-                "Сравнить целиком",
-                "Сравнить по префиксу",
-                "Сравнить по подстроке",
-                "Сравнить по регулярному выражению"};
+        String[] strategies = { "Определить слово",
+                                "Сравнить целиком",
+                                "Сравнить по префиксу",
+                                "Сравнить по подстроке",
+                                "Сравнить по регулярному выражению"};
         JComboBox<String> strategyBox = new JComboBox<>(strategies);
         frame.add(strategyBox, gbc);
 
@@ -118,12 +118,13 @@ public class DictClientUI {
         JButton resetButton = new JButton("Сброс");
         frame.add(resetButton, gbc);
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 7;
+        gbc.gridwidth = 2;
         frame.add(new JLabel("Определение слова:"), gbc);
 
         gbc.gridy = 8;
-        JTextArea resultArea = new JTextArea(5, 30);
+        JTextArea resultArea = new JTextArea(17, 62);
         resultArea.setLineWrap(true);
         resultArea.setWrapStyleWord(true);
         resultArea.setEditable(false);
