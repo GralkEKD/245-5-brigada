@@ -1,13 +1,15 @@
 package TSiPVSEVM.upr2.rfc2229.handler;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ResponseHandler {
 
-    private final InputStream is;
+    private final BufferedReader reader;
 
     public ResponseHandler(InputStream stream) {
-        is = stream;
+        reader = new BufferedReader(new InputStreamReader(stream), 1024);
     }
 
     public String doHandle(byte[] buffer, Command command) {
