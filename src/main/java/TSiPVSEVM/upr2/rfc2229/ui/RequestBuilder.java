@@ -17,7 +17,7 @@ public class RequestBuilder {
         try {
             writer.write(DictClientUI.getQuery());
         } catch (IOException e) {
-
+            DictClientUI.setDefinition(e.getMessage());
         }
     }
 }

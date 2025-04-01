@@ -8,14 +8,14 @@ public class DictClientUI {
 
     private static String query;
 
-    private static String definition;
+    private static JTextArea resultArea;
 
     public static String getQuery() {
         return query;
     }
 
     public static void setDefinition(String definition) {
-        DictClientUI.definition = definition;
+        DictClientUI.resultArea.setText(definition);
     }
 
     public static void main(String[] args) {
@@ -123,7 +123,7 @@ public class DictClientUI {
         frame.add(new JLabel("Определение слова:"), gbc);
 
         gbc.gridy = 8;
-        JTextArea resultArea = new JTextArea(5, 30);
+        resultArea = new JTextArea(5, 30);
         resultArea.setLineWrap(true);
         resultArea.setWrapStyleWord(true);
         resultArea.setEditable(false);
