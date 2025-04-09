@@ -1,4 +1,4 @@
-package TSiPVSEVM.upr2.rfc2229.ui;
+package TSiPVSEVM.upr2.rfc2229.client.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ public class DictClientUI {
 
     private static String query;
 
-    private static JTextArea resultArea;
+    private static final JTextArea resultArea = new JTextArea(17, 62);
 
     public static String getQuery() {
         return query;
@@ -18,11 +18,7 @@ public class DictClientUI {
         DictClientUI.resultArea.setText(definition);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(DictClientUI::createAndShowGUI);
-    }
-
-    private static void createAndShowGUI() {
+    public static Runnable createAndShowGUI(String[] dataBases, String[] strategies) {
         JFrame frame = new JFrame("DICT Protocol Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -46,12 +42,7 @@ public class DictClientUI {
         gbc.gridy = 2;
         frame.add(new JLabel("Выберите стратегию поиска:"), gbc);
 
-        gbc.gridy = 3;
-        String[] strategies = { "Определить слово",
-                                "Сравнить целиком",
-                                "Сравнить по префиксу",
-                                "Сравнить по подстроке",
-                                "Сравнить по регулярному выражению"};
+        gbc.gridy = 3;;
         JComboBox<String> strategyBox = new JComboBox<>(strategies);
         frame.add(strategyBox, gbc);
 
@@ -59,12 +50,8 @@ public class DictClientUI {
         gbc.gridy = 4;
         frame.add(new JLabel("Выберите базу данных:"), gbc);
 
-        gbc.gridy = 5;
-        String[] databases = {"--Выбрать базу данных--",
-                "Italian Brainrot",
-                "Anime Characters",
-                "Pokedex"};
-        JComboBox<String> databaseBox = new JComboBox<>(databases);
+        gbc.gridy = 5;;
+        JComboBox<String> databaseBox = new JComboBox<>(dataBases);
         frame.add(databaseBox, gbc);
 
         // Кнопки "Запрос" и "Сброс"
@@ -76,32 +63,27 @@ public class DictClientUI {
         queryButton.addActionListener(l -> {
             if (wordField.getText().isBlank()) return;
             StringBuilder stringBuilder = new StringBuilder();
-            switch (strategyBox.getSelectedIndex()) {
-                case 0: {
-                    stringBuilder.append("DEFINE").append(' ');
+            switch (Objects.requireNonNull(strategyBox.getSelectedItem()).toString()) {
+                case "Определить слово": {
+                    stringBuilder.append("define").append(' ');
                     break;
                 }
-
-                case 1: {
-                    stringBuilder.append("MATCH").append(' ');
+                case "Сравнить целиком": {
+                    stringBuilder.append("match").append(' ');
                     break;
                 }
-
-                case 2: {
-                    stringBuilder.append("MATCH PREFIX").append(' ');
+                case "Сравнить префикс": {
+                    stringBuilder.append("match prefix").append(' ');
                     break;
                 }
-
-                case 3: {
-                    stringBuilder.append("MATCH SUBSTRING").append(' ');
+                case "Сравнить по подстроке": {
+                    stringBuilder.append("match substring").append(' ');
                     break;
                 }
-
-                case 4: {
-                    stringBuilder.append("MATCH REGEX").append(' ');
+                case "Сравнить по регулярному выражению": {
+                    stringBuilder.append("match regex").append(' ');
                     break;
                 }
-
                 default: throw new IllegalArgumentException("Invalid Strategy selected");
             }
             if (databaseBox.getSelectedIndex() != 0) stringBuilder.append(
@@ -109,9 +91,8 @@ public class DictClientUI {
                             .toString()
                             .replaceAll(" ", "-")
             ).append(' ');
-            stringBuilder.append(wordField.getText()).append(" ");
+            stringBuilder.append(wordField.getText());
             query = stringBuilder.toString().toLowerCase();
-            System.out.println(query);
         });
 
         gbc.gridx = 1;
@@ -124,7 +105,6 @@ public class DictClientUI {
         frame.add(new JLabel("Определение слова:"), gbc);
 
         gbc.gridy = 8;
-        JTextArea resultArea = new JTextArea(17, 62);
         resultArea.setLineWrap(true);
         resultArea.setWrapStyleWord(true);
         resultArea.setEditable(false);
@@ -138,7 +118,7 @@ public class DictClientUI {
             databaseBox.setSelectedIndex(0);
             resultArea.setText("");
         });
-
         frame.setVisible(true);
+        return null;
     }
 }
