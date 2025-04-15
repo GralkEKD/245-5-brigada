@@ -1,24 +1,52 @@
 package TSiPVSEVM.upr2.rfc2229.client.ui;
 
+import TSiPVSEVM.upr2.rfc2229.client.handler.ResponseHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 public class DictClientUI {
 
-    private static String query;
+    private String query;
+    private final ResponseHandler responseHandler;
 
-    private static final JTextArea resultArea = new JTextArea(17, 62);
+    private final JTextArea resultArea = new JTextArea(17, 62);
 
-    public static String getQuery() {
+    public String getQuery() {
         return query;
     }
 
-    public static void setDefinition(String definition) {
-        DictClientUI.resultArea.setText(definition);
+    public void setDefinition(String definition) {
+        resultArea.setText(definition);
     }
 
-    public static Runnable createAndShowGUI(String[] dataBases, String[] strategies) {
+    public DictClientUI(ResponseHandler responseHandler) {
+        this.responseHandler = responseHandler;
+        try {
+            responseHandler.post("show db");
+            responseHandler.parseResponse();
+//            String[] dataBases = responseHandler.getComment().split("\n");
+            String[] dataBases = {  "Italian Brainrot",
+                                    "Animechar",
+                                    "Pokepedia"};
+
+            responseHandler.post("show strat");
+            responseHandler.parseResponse();
+//            String[] strats = responseHandler.getComment().split("\n");
+            String[] strats = { "Определить слово",
+                                "Сравнить целиком",
+                                "Сравнить префикс",
+                                "Сравнить по подстроке",
+                                "Сравнить по регулярному выражению"};
+
+            createAndShowGUI(dataBases, strats);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void createAndShowGUI(String[] dataBases, String[] strategies) {
         JFrame frame = new JFrame("DICT Protocol Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -42,7 +70,7 @@ public class DictClientUI {
         gbc.gridy = 2;
         frame.add(new JLabel("Выберите стратегию поиска:"), gbc);
 
-        gbc.gridy = 3;;
+        gbc.gridy = 3;
         JComboBox<String> strategyBox = new JComboBox<>(strategies);
         frame.add(strategyBox, gbc);
 
@@ -50,7 +78,7 @@ public class DictClientUI {
         gbc.gridy = 4;
         frame.add(new JLabel("Выберите базу данных:"), gbc);
 
-        gbc.gridy = 5;;
+        gbc.gridy = 5;
         JComboBox<String> databaseBox = new JComboBox<>(dataBases);
         frame.add(databaseBox, gbc);
 
@@ -93,6 +121,14 @@ public class DictClientUI {
             ).append(' ');
             stringBuilder.append(wordField.getText());
             query = stringBuilder.toString().toLowerCase();
+            try {
+                responseHandler.post(query);
+                responseHandler.parseResponse();
+                resultArea.setText(responseHandler.getStatus());
+                System.out.println("Request sent: " + query);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         });
 
         gbc.gridx = 1;
@@ -119,6 +155,5 @@ public class DictClientUI {
             resultArea.setText("");
         });
         frame.setVisible(true);
-        return null;
     }
 }
