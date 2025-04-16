@@ -10,6 +10,7 @@ public class ResponseHandler {
     int responseCode;
     String status;
     String comment;
+    String message;
 
     public int getResponseCode() {
         return responseCode;
@@ -28,7 +29,15 @@ public class ResponseHandler {
         writer = new BufferedWriter(new OutputStreamWriter(out), BUFF_SIZE);
     }
 
-    public void parseResponse() {
+    public void parseResponse() throws IOException{
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while (reader.ready()) {
+            line = reader.readLine();
+            sb.append(line).append("\n");
+        }
+
+        message = sb.toString();
         responseCode = 418;
         status = "I'm a Teapot";
         comment = "Literally Teapot";
@@ -36,5 +45,7 @@ public class ResponseHandler {
 
     public void post(String query) throws IOException {
         writer.write(query);
+        writer.flush();
+        System.out.println("Posting query: " + query);
     }
 }
