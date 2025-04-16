@@ -1,7 +1,5 @@
 package TSiPVSEVM.upr2.rfc2229.server;
 
-import TSiPVSEVM.upr2.rfc2229.server.handler.RequestHandler;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,5 +27,4 @@ public class DictServer {
             new DictConnectionThread(clientSocket).start();
         }
     }
-
 }
