@@ -125,20 +125,14 @@ public class Sorting {
 
     public static <T extends Comparable<T>> void combSort(T[] array, Comparator<T> order) {
         int length = array.length;
-        int sortCount;
         compCount = 0; swapCount = 0;
         int step = (int) Math.floor(array.length / 1.247);
         while (step != 0) {
-            sortCount = 1;
-            while (sortCount != 0) {
-                sortCount = 0;
-                for (int i = 0; i < length - step; i++) {
-                    compCount++;
-                    if (order.compare(array[i], array[i + step]) > 0) {
-                        swapCount++;
-                        sortCount++;
-                        swap(array, i, i + step);
-                    }
+            for (int i = 0; i < length - step; i++) {
+                compCount++;
+                if (order.compare(array[i], array[i + step]) > 0) {
+                    swapCount++;
+                    swap(array, i, i + step);
                 }
             }
             step = (int) Math.floor(step / 1.247);
