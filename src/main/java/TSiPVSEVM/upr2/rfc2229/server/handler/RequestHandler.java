@@ -5,7 +5,6 @@ import TSiPVSEVM.upr2.rfc2229.database.WordRepository;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -115,7 +114,6 @@ public class RequestHandler {
         try {
             RequestBody body = new RequestBody(request.toLowerCase());
 
-            StringBuilder response = new StringBuilder();
             switch (body.getCommand()) {
 
                 case "get", "post", "delete": {
