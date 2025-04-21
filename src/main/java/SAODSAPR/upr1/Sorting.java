@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 public class Sorting {
 
+    private static final double DECREASE_FACTOR = 1.247;
+
     public static int compCount;
 
     public static int swapCount;
@@ -126,7 +128,7 @@ public class Sorting {
     public static <T extends Comparable<T>> void combSort(T[] array, Comparator<T> order) {
         int length = array.length;
         compCount = 0; swapCount = 0;
-        int step = (int) Math.floor(array.length / 1.247);
+        int step = (int) Math.floor(array.length / DECREASE_FACTOR);
         while (step != 0) {
             for (int i = 0; i < length - step; i++) {
                 compCount++;
@@ -135,7 +137,28 @@ public class Sorting {
                     swap(array, i, i + step);
                 }
             }
-            step = (int) Math.floor(step / 1.247);
+            step = (int) Math.floor(step / DECREASE_FACTOR);
+        }
+    }
+
+    public static <T extends Comparable<T>> void gnomeSort(T[] array) {
+        gnomeSort(array, Comparator.naturalOrder());
+    }
+
+    public static <T extends Comparable<T>> void gnomeSort(T[] array, Comparator<T> order) {
+        int i = 0;
+        int k = 0;
+        swapCount = 0; compCount = 0;
+        while (i < array.length - 1) {
+            compCount++;
+            if (order.compare(array[i], array[i + 1]) > 0) {
+                if (i >= k) k = i + 1;
+                swapCount++;
+                swap(array, i, i + 1);
+                if (i != 0) i--;
+            } else {
+                i = (i < k ? k : i + 1);
+            }
         }
     }
 }
