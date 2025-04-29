@@ -4,6 +4,7 @@ import TSiPVSEVM.upr2.rfc2229.database.Database;
 import TSiPVSEVM.upr2.rfc2229.database.WordRepository;
 
 import java.io.*;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,8 @@ public class RequestHandler {
                     </html>
                     """;
 
+    private final Socket client;
+
     private final BufferedReader input;
 
     private final BufferedWriter output;
@@ -89,19 +92,34 @@ public class RequestHandler {
 
     private boolean isConnectionOpen = true;
 
-    public RequestHandler(InputStream inputStream, OutputStream outputStream) {
-        input = new BufferedReader(new InputStreamReader(inputStream), BUFF_SIZE);
-        output = new BufferedWriter(new OutputStreamWriter(outputStream), BUFF_SIZE);
+    public RequestHandler(Socket client) throws IOException {
+        this.client = client;
+        input = new BufferedReader(new InputStreamReader(client.getInputStream()), BUFF_SIZE);
+        output = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()), BUFF_SIZE);
     }
 
     public void sendInitialResponse() throws IOException {
-        if (input.ready()) doHandle();
+        client.setSoTimeout(300);
+
+        try {
+            if (input.ready()) {
+                doHandle();
+                return;
+            }
+        } catch (java.net.SocketTimeoutException e) {
+            LOGGER.log(Level.FINE, "No immediate input from client, assuming DICT", e);
+        } finally {
+            client.setSoTimeout(0);
+        }
+
         if (isConnectionOpen) {
             output.write(CONNECTION_INITIATED);
             output.flush();
         }
+
         LOGGER.log(Level.FINE, "Initial response sent");
     }
+
 
     public void doHandle() throws IOException {
         LOGGER.log(Level.FINE, "Handling started");
@@ -154,7 +172,7 @@ public class RequestHandler {
                 }
             }
         } catch (ResponseException e) {
-            output.write(e.getCode() + " " + e.getMessage() + "\n");
+            output.write(e.getCode() + " " + e.getMessage() + "\r\n");
         } finally {
             output.flush();
             if (!isConnectionOpen) output.close();

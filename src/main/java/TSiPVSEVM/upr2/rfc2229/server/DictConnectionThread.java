@@ -30,10 +30,7 @@ public class DictConnectionThread extends Thread {
         try {
             LOGGER.log(Level.FINE, "Accepted connection: " + clientSocket.getInetAddress());
 
-            InputStream is = clientSocket.getInputStream();
-            OutputStream os = clientSocket.getOutputStream();
-
-            RequestHandler requestHandler = new RequestHandler(is, os);
+            RequestHandler requestHandler = new RequestHandler(clientSocket);
 
             requestHandler.sendInitialResponse();
             LOGGER.log(Level.FINE, "Initial response sent");
