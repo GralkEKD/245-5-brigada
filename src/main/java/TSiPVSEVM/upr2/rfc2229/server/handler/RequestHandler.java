@@ -5,6 +5,7 @@ import TSiPVSEVM.upr2.rfc2229.database.WordRepository;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -60,7 +61,7 @@ public class RequestHandler {
         response.append(".\r\n");
         response.append("250 Command complete\r\n");
 
-        LOGGER.log(Level.FINE, "Response built:\r\n" + response);
+        LOGGER.log(Level.FINE, "Response built:\n" + response);
         return response.toString();
     }
 
@@ -84,16 +85,13 @@ public class RequestHandler {
 
     private final BufferedWriter output;
 
-    private final WordRepository repository;
+    private WordRepository repository;
 
     private boolean isConnectionOpen = true;
 
     public RequestHandler(InputStream inputStream, OutputStream outputStream) {
         input = new BufferedReader(new InputStreamReader(inputStream), BUFF_SIZE);
         output = new BufferedWriter(new OutputStreamWriter(outputStream), BUFF_SIZE);
-
-        /* Dud while no implementation */
-        repository = List::of;
     }
 
     public void sendInitialResponse() throws IOException {
@@ -106,7 +104,7 @@ public class RequestHandler {
     }
 
     public void doHandle() throws IOException {
-        LOGGER.log(Level.INFO, "Handling started");
+        LOGGER.log(Level.FINE, "Handling started");
         String request = input.readLine();
         if (Objects.isNull(request)) throw new IOException("Connection terminated by client");
         LOGGER.log(Level.FINE, "Received command: " + request);

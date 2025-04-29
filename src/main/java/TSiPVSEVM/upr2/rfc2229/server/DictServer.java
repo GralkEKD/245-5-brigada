@@ -14,19 +14,22 @@ public class DictServer {
 
     public static void main(String[] args) throws IOException {
 
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            LOGGER.log(Level.INFO, "Socket created, listening port " + serverSocket.getLocalPort());
-            Socket clientSocket = null;
-            //noinspection InfiniteLoopStatement
-            while (true) {
-                try {
-                    clientSocket = serverSocket.accept();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "IOException occurred: " + e.getMessage());
-                }
+        //noinspection InfiniteLoopStatement
+        while (true)
+            try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+                LOGGER.log(Level.INFO, "Socket created, listening port " + serverSocket.getLocalPort());
+                //noinspection InfiniteLoopStatement
+                while (true) {
+                    try {
+                        Socket clientSocket = serverSocket.accept();
+                        new DictConnectionThread(clientSocket).start();
+                    } catch (IOException e) {
+                        LOGGER.log(Level.SEVERE, "IOException occurred: " + e.getMessage());
+                    }
 
-                new DictConnectionThread(clientSocket).start();
+                }
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
-        }
     }
 }
