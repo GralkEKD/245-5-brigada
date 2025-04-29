@@ -24,23 +24,15 @@ public class DictClientUI {
     public DictClientUI(ResponseHandler responseHandler) {
         this.responseHandler = responseHandler;
         try {
-            responseHandler.post("show db");
+            responseHandler.post("show db\n");
             responseHandler.parseResponse();
-//            String[] dataBases = responseHandler.getComment().split("\n");
-            String[] dataBases = {  "Italian Brainrot",
-                                    "Animechar",
-                                    "Pokepedia"};
+            String[] dataBases = responseHandler.getComment().split("\n");
 
-            responseHandler.post("show strat");
+            responseHandler.post("show strat\n");
             responseHandler.parseResponse();
-//            String[] strats = responseHandler.getComment().split("\n");
-            String[] strats = { "Определить слово",
-                                "Сравнить целиком",
-                                "Сравнить префикс",
-                                "Сравнить по подстроке",
-                                "Сравнить по регулярному выражению"};
+            String[] strategies = responseHandler.getComment().split("\n");
 
-            createAndShowGUI(dataBases, strats);
+            createAndShowGUI(dataBases, strategies);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

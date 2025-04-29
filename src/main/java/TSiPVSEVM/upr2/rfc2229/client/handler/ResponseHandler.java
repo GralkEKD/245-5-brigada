@@ -4,17 +4,12 @@ import java.io.*;
 
 public class ResponseHandler {
     private static final int BUFF_SIZE = 1024;
-    BufferedReader reader;
-    BufferedWriter writer;
+    private final BufferedReader reader;
+    private final BufferedWriter writer;
 
-    int responseCode;
-    String status;
-    String comment;
+    private String status;
+    private String comment;
     String message;
-
-    public int getResponseCode() {
-        return responseCode;
-    }
 
     public String getStatus() {
         return status;
@@ -25,27 +20,34 @@ public class ResponseHandler {
     }
 
     public ResponseHandler(InputStream in, OutputStream out) {
-        reader = new BufferedReader(new InputStreamReader(in), BUFF_SIZE);
-        writer = new BufferedWriter(new OutputStreamWriter(out), BUFF_SIZE);
+        reader = new BufferedReader(new InputStreamReader(in));
+        writer = new BufferedWriter(new OutputStreamWriter(out));
+        try {
+            parseResponse();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
-    public void parseResponse() throws IOException{
+    public void parseResponse() throws IOException {
         StringBuilder sb = new StringBuilder();
-        String line;
         while (reader.ready()) {
-            line = reader.readLine();
+            String line = reader.readLine();
             sb.append(line).append("\n");
         }
 
         message = sb.toString();
-        responseCode = 418;
-        status = "I'm a Teapot";
-        comment = "Literally Teapot";
+
+        System.out.print("message: " + message);
+
+        String responseCode = message;
+        status = message;
+        comment = message;
     }
 
     public void post(String query) throws IOException {
         writer.write(query);
         writer.flush();
-        System.out.println("Posting query: " + query);
+        System.out.print("Posting query: " + query);
     }
 }
