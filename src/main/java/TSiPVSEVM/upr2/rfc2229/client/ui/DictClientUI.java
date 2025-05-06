@@ -110,11 +110,10 @@ public class DictClientUI {
                     " \"" + wordField.getText().replace(' ', '-') + "\"\r\n";
             }
             try {
-                responseHandler.post(query);
+                responseHandler.post(query.toLowerCase());
                 responseHandler.parseResponse();
-                resultArea.setText(responseHandler.getStatus()[0]);
+                setDefinition(responseHandler.getComment()[0]);
                 responseHandler.parseResponse();
-                System.out.println("Request sent: " + query);
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
