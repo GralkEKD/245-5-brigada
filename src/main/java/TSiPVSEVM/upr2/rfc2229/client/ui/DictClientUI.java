@@ -26,15 +26,17 @@ public class DictClientUI {
         try {
             responseHandler.post("show db\n");
             responseHandler.parseResponse();
-            String[] dataBases = responseHandler.getComment().split("\n");
+            String[] dataBases = responseHandler.getComment();
+            responseHandler.parseResponse();
 
             responseHandler.post("show strat\n");
             responseHandler.parseResponse();
-            String[] strategies = responseHandler.getComment().split("\n");
+            String[] strategies = responseHandler.getComment();
+            responseHandler.parseResponse();
 
             createAndShowGUI(dataBases, strategies);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace(System.err);
         }
     }
 
@@ -82,44 +84,18 @@ public class DictClientUI {
 
         queryButton.addActionListener(l -> {
             if (wordField.getText().isBlank()) return;
-            StringBuilder stringBuilder = new StringBuilder();
-            switch (Objects.requireNonNull(strategyBox.getSelectedItem()).toString()) {
-                case "Определить слово": {
-                    stringBuilder.append("define").append(' ');
-                    break;
-                }
-                case "Сравнить целиком": {
-                    stringBuilder.append("match").append(' ');
-                    break;
-                }
-                case "Сравнить префикс": {
-                    stringBuilder.append("match prefix").append(' ');
-                    break;
-                }
-                case "Сравнить по подстроке": {
-                    stringBuilder.append("match substring").append(' ');
-                    break;
-                }
-                case "Сравнить по регулярному выражению": {
-                    stringBuilder.append("match regex").append(' ');
-                    break;
-                }
-                default: throw new IllegalArgumentException("Invalid Strategy selected");
-            }
-            if (databaseBox.getSelectedIndex() != 0) stringBuilder.append(
-                    Objects.requireNonNull(databaseBox.getSelectedItem())
-                            .toString()
-                            .replaceAll(" ", "-")
-            ).append(' ');
-            stringBuilder.append(wordField.getText());
-            query = stringBuilder.toString().toLowerCase();
+            String sb = responseHandler.getStatus()[strategyBox.getSelectedIndex()] + " " +
+                    responseHandler.getStatus()[databaseBox.getSelectedIndex()] + " " +
+                    wordField.getText() + "\r\n";
+            query = sb.toLowerCase();
             try {
                 responseHandler.post(query);
                 responseHandler.parseResponse();
-                resultArea.setText(responseHandler.getStatus());
+                resultArea.setText(responseHandler.getStatus()[0]);
+                responseHandler.parseResponse();
                 System.out.println("Request sent: " + query);
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                e.printStackTrace(System.err);
             }
         });
 
