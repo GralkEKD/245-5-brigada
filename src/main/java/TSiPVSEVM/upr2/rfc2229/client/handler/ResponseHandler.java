@@ -1,9 +1,5 @@
 package TSiPVSEVM.upr2.rfc2229.client.handler;
 
-import DMSAPR.lab2.Dynamic;
-import TSiPVSEVM.upr2.rfc2229.client.ui.DictClientUI;
-
-import javax.lang.model.element.NestingKind;
 import java.io.*;
 
 public class ResponseHandler {
@@ -23,8 +19,8 @@ public class ResponseHandler {
     }
 
     public ResponseHandler(InputStream in, OutputStream out) {
-        reader = new BufferedReader(new InputStreamReader(in));
-        writer = new BufferedWriter(new OutputStreamWriter(out));
+        reader = new BufferedReader(new InputStreamReader(in), BUFF_SIZE);
+        writer = new BufferedWriter(new OutputStreamWriter(out), BUFF_SIZE);
         try {
             parseResponse();
         } catch (IOException e) {

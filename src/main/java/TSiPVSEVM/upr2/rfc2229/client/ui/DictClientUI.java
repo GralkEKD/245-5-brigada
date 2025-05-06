@@ -4,9 +4,6 @@ import TSiPVSEVM.upr2.rfc2229.client.handler.ResponseHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Stack;
 
 public class DictClientUI {
 
@@ -16,10 +13,6 @@ public class DictClientUI {
     private final ResponseHandler responseHandler;
 
     private final JTextArea resultArea = new JTextArea(17, 62);
-
-    public String getQuery() {
-        return query;
-    }
 
     public void setDefinition(String definition) {
         resultArea.setText(definition);
