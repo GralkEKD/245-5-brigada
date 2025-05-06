@@ -4,11 +4,15 @@ import TSiPVSEVM.upr2.rfc2229.client.handler.ResponseHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Stack;
 
 public class DictClientUI {
 
     private String query;
+    private String[] dataBases;
+    private String[] strategies;
     private final ResponseHandler responseHandler;
 
     private final JTextArea resultArea = new JTextArea(17, 62);
@@ -26,21 +30,32 @@ public class DictClientUI {
         try {
             responseHandler.post("show db\n");
             responseHandler.parseResponse();
-            String[] dataBases = responseHandler.getComment();
+            String[] dataBasesOptions = responseHandler.getComment();
+            dataBases = responseHandler.getStatus();
             responseHandler.parseResponse();
 
             responseHandler.post("show strat\n");
             responseHandler.parseResponse();
-            String[] strategies = responseHandler.getComment();
+            String[] strategiesOptions = new String[responseHandler.getComment().length + 1];
+            strategiesOptions[0] = "Define word";
+            for (int i = 1; i <= strategiesOptions.length - 1; i++) {
+                strategiesOptions[i] = responseHandler.getComment()[i - 1];
+            }
+            strategies = new String[strategiesOptions.length];
+            strategies[0] = "";
+            for (int i = 1; i < strategies.length; i++) {
+                strategies[i] = responseHandler.getStatus()[i - 1];
+            }
+
             responseHandler.parseResponse();
 
-            createAndShowGUI(dataBases, strategies);
+            createAndShowGUI(dataBasesOptions, strategiesOptions);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
 
-    public void createAndShowGUI(String[] dataBases, String[] strategies) {
+    public void createAndShowGUI(String[] dataBasesOptions, String[] strategiesOptions) {
         JFrame frame = new JFrame("DICT Protocol Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -65,7 +80,7 @@ public class DictClientUI {
         frame.add(new JLabel("Выберите стратегию поиска:"), gbc);
 
         gbc.gridy = 3;
-        JComboBox<String> strategyBox = new JComboBox<>(strategies);
+        JComboBox<String> strategyBox = new JComboBox<>(strategiesOptions);
         frame.add(strategyBox, gbc);
 
         // Выпадающий список баз данных
@@ -73,7 +88,7 @@ public class DictClientUI {
         frame.add(new JLabel("Выберите базу данных:"), gbc);
 
         gbc.gridy = 5;
-        JComboBox<String> databaseBox = new JComboBox<>(dataBases);
+        JComboBox<String> databaseBox = new JComboBox<>(dataBasesOptions);
         frame.add(databaseBox, gbc);
 
         // Кнопки "Запрос" и "Сброс"
@@ -84,10 +99,16 @@ public class DictClientUI {
 
         queryButton.addActionListener(l -> {
             if (wordField.getText().isBlank()) return;
-            String sb = responseHandler.getStatus()[strategyBox.getSelectedIndex()] + " " +
-                    responseHandler.getStatus()[databaseBox.getSelectedIndex()] + " " +
-                    wordField.getText() + "\r\n";
-            query = sb.toLowerCase();
+            if (strategyBox.getSelectedIndex() == 0) {
+                query = "define " +
+                    dataBases[strategyBox.getSelectedIndex()] +
+                    " \"" + wordField.getText().replace(' ', '-') + "\"\r\n";
+            } else {
+                query = "match " +
+                    dataBases[databaseBox.getSelectedIndex()] + " " +
+                    strategies[strategyBox.getSelectedIndex()] +
+                    " \"" + wordField.getText().replace(' ', '-') + "\"\r\n";
+            }
             try {
                 responseHandler.post(query);
                 responseHandler.parseResponse();
