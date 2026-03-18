@@ -4,18 +4,15 @@ import TSiPVSEVM.upr2.rfc2229.client.handler.ResponseHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class DictClientUI {
 
     private String query;
+    private String[] dataBases;
+    private String[] strategies;
     private final ResponseHandler responseHandler;
 
     private final JTextArea resultArea = new JTextArea(17, 62);
-
-    public String getQuery() {
-        return query;
-    }
 
     public void setDefinition(String definition) {
         resultArea.setText(definition);
@@ -26,19 +23,32 @@ public class DictClientUI {
         try {
             responseHandler.post("show db\n");
             responseHandler.parseResponse();
-            String[] dataBases = responseHandler.getComment().split("\n");
+            String[] dataBasesOptions = responseHandler.getComment();
+            dataBases = responseHandler.getStatus();
+            responseHandler.parseResponse();
 
             responseHandler.post("show strat\n");
             responseHandler.parseResponse();
-            String[] strategies = responseHandler.getComment().split("\n");
+            String[] strategiesOptions = new String[responseHandler.getComment().length + 1];
+            strategiesOptions[0] = "Define word";
+            for (int i = 1; i <= strategiesOptions.length - 1; i++) {
+                strategiesOptions[i] = responseHandler.getComment()[i - 1];
+            }
+            strategies = new String[strategiesOptions.length];
+            strategies[0] = "";
+            for (int i = 1; i < strategies.length; i++) {
+                strategies[i] = responseHandler.getStatus()[i - 1];
+            }
 
-            createAndShowGUI(dataBases, strategies);
+            responseHandler.parseResponse();
+
+            createAndShowGUI(dataBasesOptions, strategiesOptions);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace(System.err);
         }
     }
 
-    public void createAndShowGUI(String[] dataBases, String[] strategies) {
+    public void createAndShowGUI(String[] dataBasesOptions, String[] strategiesOptions) {
         JFrame frame = new JFrame("DICT Protocol Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -63,7 +73,7 @@ public class DictClientUI {
         frame.add(new JLabel("Выберите стратегию поиска:"), gbc);
 
         gbc.gridy = 3;
-        JComboBox<String> strategyBox = new JComboBox<>(strategies);
+        JComboBox<String> strategyBox = new JComboBox<>(strategiesOptions);
         frame.add(strategyBox, gbc);
 
         // Выпадающий список баз данных
@@ -71,7 +81,7 @@ public class DictClientUI {
         frame.add(new JLabel("Выберите базу данных:"), gbc);
 
         gbc.gridy = 5;
-        JComboBox<String> databaseBox = new JComboBox<>(dataBases);
+        JComboBox<String> databaseBox = new JComboBox<>(dataBasesOptions);
         frame.add(databaseBox, gbc);
 
         // Кнопки "Запрос" и "Сброс"
@@ -82,44 +92,23 @@ public class DictClientUI {
 
         queryButton.addActionListener(l -> {
             if (wordField.getText().isBlank()) return;
-            StringBuilder stringBuilder = new StringBuilder();
-            switch (Objects.requireNonNull(strategyBox.getSelectedItem()).toString()) {
-                case "Определить слово": {
-                    stringBuilder.append("define").append(' ');
-                    break;
-                }
-                case "Сравнить целиком": {
-                    stringBuilder.append("match").append(' ');
-                    break;
-                }
-                case "Сравнить префикс": {
-                    stringBuilder.append("match prefix").append(' ');
-                    break;
-                }
-                case "Сравнить по подстроке": {
-                    stringBuilder.append("match substring").append(' ');
-                    break;
-                }
-                case "Сравнить по регулярному выражению": {
-                    stringBuilder.append("match regex").append(' ');
-                    break;
-                }
-                default: throw new IllegalArgumentException("Invalid Strategy selected");
+            if (strategyBox.getSelectedIndex() == 0) {
+                query = "define " +
+                    dataBases[strategyBox.getSelectedIndex()] +
+                    " \"" + wordField.getText().replace(' ', '-') + "\"\r\n";
+            } else {
+                query = "match " +
+                    dataBases[databaseBox.getSelectedIndex()] + " " +
+                    strategies[strategyBox.getSelectedIndex()] +
+                    " \"" + wordField.getText().replace(' ', '-') + "\"\r\n";
             }
-            if (databaseBox.getSelectedIndex() != 0) stringBuilder.append(
-                    Objects.requireNonNull(databaseBox.getSelectedItem())
-                            .toString()
-                            .replaceAll(" ", "-")
-            ).append(' ');
-            stringBuilder.append(wordField.getText());
-            query = stringBuilder.toString().toLowerCase();
             try {
-                responseHandler.post(query);
+                responseHandler.post(query.toLowerCase());
                 responseHandler.parseResponse();
-                resultArea.setText(responseHandler.getStatus());
-                System.out.println("Request sent: " + query);
+                setDefinition(responseHandler.getComment()[0]);
+                responseHandler.parseResponse();
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                e.printStackTrace(System.err);
             }
         });
 
