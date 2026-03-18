@@ -40,9 +40,6 @@ public class ResponseHandler {
 
         System.out.print("message: " + message);
 
-        String responseCode = message;
-        status = message;
-        comment = message;
     }
 
     public void post(String query) throws IOException {

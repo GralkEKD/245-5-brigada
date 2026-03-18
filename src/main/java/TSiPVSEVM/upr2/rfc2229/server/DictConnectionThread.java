@@ -3,8 +3,6 @@ package TSiPVSEVM.upr2.rfc2229.server;
 import TSiPVSEVM.upr2.rfc2229.server.handler.RequestHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -43,5 +41,11 @@ public class DictConnectionThread extends Thread {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IOException occurred: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void start() {
+        if (Objects.isNull(clientSocket)) throw new RuntimeException("Client Socket not instantiated");
+        super.start();
     }
 }

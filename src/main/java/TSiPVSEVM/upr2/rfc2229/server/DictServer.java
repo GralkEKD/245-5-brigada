@@ -12,7 +12,7 @@ public class DictServer {
 
     private final static int PORT = 2628;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         //noinspection InfiniteLoopStatement
         while (true)

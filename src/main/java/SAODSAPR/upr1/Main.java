@@ -26,9 +26,9 @@ public class Main {
 
         Random random = new Random(seed);
         for (int i = 0; i < 60; i++) {
-            if (i < 10) array1[i] = random.nextInt(-100, 100);
-            else if (i < 30) array2[i - 10] = random.nextInt(-100, 100);
-            else array3[i - 30] = random.nextInt(-100, 100);
+            if (i < 10) array1[i] = random.nextInt(7, 9);
+            else if (i < 30) array2[i - 10] = random.nextInt(4, 8);
+            else array3[i - 30] = random.nextInt(1, 7);
         }
 
         System.out.println("Неотсортированные массивы:");
@@ -38,15 +38,18 @@ public class Main {
 //        Sorting.insertionSort(array2, Comparator.reverseOrder());
 //        Sorting.insertionSort(array3, Comparator.reverseOrder());
 
-        Sorting.shakerSort(array1);
+        Integer[] k1 = {7, 8};
+        Integer[] k2 = {4, 5, 6, 7};
+        Integer[] k3 = {1, 2, 3, 4, 5, 6};
+        Sorting.dispersionCountSort(array1, k1);
         System.out.println(Arrays.toString(array1) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);
-        Sorting.shakerSort(array2);
+        Sorting.dispersionCountSort(array2, k2);
         System.out.println(Arrays.toString(array2) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);
-        Sorting.shakerSort(array3);
+        Sorting.dispersionCountSort(array3, k3);
         System.out.println(Arrays.toString(array3) + '\n' +
                 "Количество сравнений: " + Sorting.compCount +
                 ", Количество перестановок: " + Sorting.swapCount);

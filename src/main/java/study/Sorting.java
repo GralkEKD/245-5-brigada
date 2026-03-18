@@ -2,6 +2,7 @@ package study;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * So, I decided to write some classes with interesting algorithms I come across, and as a first step this class was

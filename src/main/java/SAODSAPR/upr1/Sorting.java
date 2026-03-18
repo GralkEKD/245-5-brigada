@@ -1,6 +1,6 @@
 package SAODSAPR.upr1;
 
-import java.util.Comparator;
+import java.util.*;
 
 public class Sorting {
 
@@ -160,5 +160,70 @@ public class Sorting {
                 i = (i < k ? k : i + 1);
             }
         }
+    }
+
+    public static <T extends Comparable<T>> void compCountSort(T[] array) {
+        compCountSort(array, Comparator.naturalOrder());
+    }
+
+    public static <T extends Comparable<T>> void compCountSort(T[] array, Comparator<T> order) {
+        compCount = 0; swapCount = 0;
+
+        int[] counterArray = new int[array.length];
+        ArrayList<T> sorted = new ArrayList<>(array.length);
+        for (int i = 0; i < array.length; i++) {
+            sorted.add(null);
+        }
+        var sortedArray = sorted.toArray();
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length; j++) {
+                compCount++;
+                if (i != j && order.compare(array[j], array[i]) < 0) {
+                    counterArray[i]++;
+                }
+            }
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            while (!Objects.isNull(sortedArray[counterArray[i]])) counterArray[i]++;
+            sortedArray[counterArray[i]] = array[i];
+        }
+
+        System.arraycopy(sortedArray, 0, array, 0, array.length);
+    }
+
+    public static <T> void dispersionCountSort(T[] array, T[] values) {
+        compCount = 0; swapCount = 0;
+        int[] F = new int[values.length];
+        int[] D = new int[values.length];
+        ArrayList<T> sorted = new ArrayList<>(array.length);
+        for (int i = 0; i < array.length; i++) {
+            sorted.add(null);
+        }
+        var sortedArray = sorted.toArray();
+        for (T t : array) {
+            for (int j = 0; j < values.length; j++) {
+                compCount++;
+                if (t.equals(values[j])) {
+                    F[j]++;
+                    break;
+                }
+            }
+        }
+        D[0] = F[0];
+        for (int i = 1; i < F.length; i++) {
+            D[i] = D[i - 1] + F[i];
+        }
+        for (int i = array.length - 1; i >= 0; i--) {
+            for (int j = 0; j < D.length; j++) {
+                compCount++;
+                if (array[i].equals(values[j])) {
+                    sortedArray[D[j] - 1] = values[j];
+                    D[j]--;
+                    break;
+                }
+            }
+        }
+        System.arraycopy(sortedArray, 0, array, 0, array.length);
     }
 }
