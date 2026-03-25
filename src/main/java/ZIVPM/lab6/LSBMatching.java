@@ -31,7 +31,9 @@ public class LSBMatching {
 
     public static String decrypt(BufferedImage stego) {
         BigInteger messageBits = BigInteger.valueOf(0L);
-        int messageBitLength = stego.getRGB(0, 0) & 0xFFFFFF;
+        int messageBitLength = stego.getRGB(0, 0);
+        if ((messageBitLength & 0xFF000000) != 0) return null;
+        else messageBitLength &= 0xFFFFFF;
         int bitIndex = 0;
         for (int y = 0; y < stego.getHeight(); y++) {
             if (messageBitLength <= 0) break;

@@ -1,11 +1,11 @@
 package ZIVPM.lab6;
 
-import ZIVPM.lab1.ui.SubstitutionCipherForm;
+import ZIVPM.lab6.ui.LSBMatchingForm;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SubstitutionCipherForm::new);
+        SwingUtilities.invokeLater(LSBMatchingForm::new);
     }
 }

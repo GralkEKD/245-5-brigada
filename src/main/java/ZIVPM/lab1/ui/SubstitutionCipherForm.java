@@ -12,7 +12,7 @@ public class SubstitutionCipherForm extends JFrame {
     private JButton decryptButton;
 
     public SubstitutionCipherForm() {
-        setTitle("Авторизация");
+        setTitle("Шифр подстановки");
         setContentPane(mainPanel);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
