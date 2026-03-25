@@ -1,4 +1,4 @@
-package ZIVPM.upr4.ui;
+package ZIVPM.lab4.ui;
 
 import javax.swing.*;
 

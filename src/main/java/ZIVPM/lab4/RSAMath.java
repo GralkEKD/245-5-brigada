@@ -1,4 +1,4 @@
-package ZIVPM.upr4;
+package ZIVPM.lab4;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
