@@ -54,11 +54,23 @@ public class RSAEncryptDecryptForm extends JFrame {
     }
 
     private void onDecrypt() {
-        BigInteger p = new BigInteger(pTextField.getText()),
-                q = new BigInteger(qTextFiled.getText()),
-                e = new BigInteger(eTextField.getText()),
-                d = new BigInteger(dTextField.getText());
-        key = new Key(e, d, p.multiply(q));
+        String p = pTextField.getText(),
+                q = qTextFiled.getText();
+        String e = eTextField.getText(),
+                d = dTextField.getText();
+        if (d.isBlank() || e.isBlank())  {
+            key = RSAMath.generateKey(
+                    Long.parseLong(p),
+                    Long.parseLong(q)
+            );
+            eTextField.setText(key.e().toString());
+            dTextField.setText(key.d().toString());
+        } else key = RSAMath.generateKey(
+                Long.parseLong(p),
+                Long.parseLong(q),
+                Long.parseLong(e),
+                Long.parseLong(d)
+        );
         String cipher = cipherTextPane.getText();
         String message = RSAMath.decrypt(this.key, cipher);
         messageTextPane.setText(message);
